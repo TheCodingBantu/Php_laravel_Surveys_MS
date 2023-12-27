@@ -73,7 +73,7 @@
                               <div class="text-bg">
                                  <h1>Get<br>Real time insights<br></h1>
                                  <p>
-                                    identify new market opportunities, pinpoint loopholes in the customer journey, conduct competitor analysis, and determine your brand's position in the market.
+                                    Identify new market opportunities, find loopholes in the customer journey, conduct competitor analysis, and determine your brand's position in the market.
 
                                 </p>
                                  <a class="read_more" href="{{route('register')}}">Get Started</a>
