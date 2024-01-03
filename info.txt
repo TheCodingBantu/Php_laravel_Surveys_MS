@@ -1,0 +1,31 @@
+Loyalty Point redemption
+See past orders
+see past survey data
+
+Each order has an order number
+
+Reedeeming loyalty points
+------------------------
+On checkout, enter the number of ppints to remeedm 1 LP= kshs 100
+
+Admin To approve loyalty points allocation
+AI for sentiment analysis
+
+
+gender selector, age and who the client was served by.
+
+
+Survey questions
+Age
+gender
+branch of order collection
+rate experience 1-10
+Explain why the above rating was given
+overall exoerience 
+explain the above
+
+
+We need 3 branched
+Junction Mall
+Village Market 
+Garden City

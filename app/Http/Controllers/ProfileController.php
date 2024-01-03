@@ -82,7 +82,7 @@ class ProfileController extends Controller
                 'password' => Hash::make('password'),
             ]);
             event(new Registered($user));
-            return redirect()->back()->withInput()->with('success', 'Employee created successfully');
+            return redirect()->back()->withInput()->with('success', 'created successfully');
         } catch (\Throwable $th) {
             return redirect()->back()->withInput()->with('error', $th->getMessage());
         }
@@ -91,8 +91,8 @@ class ProfileController extends Controller
     {
         try {
             User::find($request->input('id'))->delete();
-            Leave::where('user_id', $request->input('id'))->delete();
-            return redirect()->back()->withInput()->with('success', 'Employee deleted successfully');
+            // Leave::where('user_id', $request->input('id'))->delete();
+            return redirect()->back()->withInput()->with('success', ' deleted successfully');
         } catch (\Throwable $th) {
             return redirect()->back()->withInput()->with('error', $th);
         }

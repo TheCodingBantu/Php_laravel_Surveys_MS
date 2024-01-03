@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 
 use App\Models\Customer;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class CustomerController extends Controller
 {
@@ -26,13 +28,20 @@ class CustomerController extends Controller
    }
     public function storeCustomer(Request $request)
     {
+        // create a user relation
+        $user = User::create([
+            'name'=> $request->name,
+            'email'=> $request->email,
+            'password'=> Hash::make('password')
+        ]);
+        
         Customer::create([
             "name" => $request->name,
             "email" => $request->email,
             "phone" => $request->phone,
             "dob" => Carbon::parse($request->date),
             "gender" => $request->gender,
-            "user_id" => Auth::User()->id
+            "user_id" => $user->id
         ]);
         return redirect()->back()->withInput()->with('success', 'Customer added successfully');
 

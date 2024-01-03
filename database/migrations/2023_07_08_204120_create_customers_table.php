@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('user_id');
             $table->string('gender');
             $table->datetime('dob');
+            $table->integer('lp')->nullable(); 
             $table->timestamps();
         });
     }

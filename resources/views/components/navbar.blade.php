@@ -203,8 +203,6 @@
                                         <a class="nav-link @if (url()->current()==route('csv-preview')) active @endif " href="{{ route('csv-preview') }}">
                                             Upload CSV
                                         </a>
-
-
                                     </nav>
                                 </div>
 
@@ -214,18 +212,27 @@
                                 Feedback
                             </a>
 
-                                <a class="nav-link  @if (url()->current()==route('visits'))active @endif" href="{{ route('visits') }}">
+                                {{-- <a class="nav-link  @if (url()->current()==route('visits'))active @endif" href="{{ route('visits') }}">
                                     <div class="nav-link-icon"><i data-feather="layout"></i></div>
                                     Visits
-                                </a>
+                                </a> --}}
 
                                 <!-- Sidenav Accordion (Components)-->
                                 <a class="nav-link
-                                @if (url()->current()==route('departments'))active @endif
-                                " href="{{ route('departments') }}">
+                                @if (url()->current()==route('branches'))active @endif
+                                " href="{{ route('branches') }}">
                                     <div class="nav-link-icon"><i data-feather="package"></i></div>
                                      Branches
                                 </a>
+
+                                <a class="nav-link
+                                @if (url()->current()==route('adminorders'))active @endif
+                                " href="{{ route('adminorders') }}">
+                                    <div class="nav-link-icon"><i data-feather="package"></i></div>
+                                     Orders
+                                </a>
+
+
 
                         </div>
                     </div>
