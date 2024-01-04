@@ -1,5 +1,5 @@
-@include('components.navbar')
-@include('components.footer')
+@include('clientui.components.client-navbar')
+@include('clientui.components.client-footer')
 
 @yield('navbar')
 <main class="main">
@@ -46,7 +46,7 @@
                         </div>
                         <div class="col-md-6 col-sm-12 col-xs-12">
                             <div class="detail-info pr-30 pl-30">
-                                <h2 class="title-detail">{{$product->name}}</h2>
+                                <h2 class="title-detail">{{$product->title}}</h2>
                                 <div class="product-detail-rating">
 
                                 </div>
@@ -61,12 +61,12 @@
                                 </div>
 
                                 <div class="detail-extralink mb-50">
-                                    <div class="detail-qty border radius">
+                                    {{-- <div class="detail-qty border radius">
                                         <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
                                         <input type="text" name="quantity" class="qty-val" value="1"
                                             min="1">
                                         <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
-                                    </div>
+                                    </div> --}}
                                     <div class="product-extra-link2">
                                         <button onclick="addtocart({{$product->id}})" type="submit" class="button button-add-to-cart"><i
                                                 class="fi-rs-shopping-cart"></i>Add to cart</button>
@@ -75,6 +75,62 @@
 
                             </div>
                             <!-- Detail Info -->
+                            
+                        </div>
+                    </div>
+                    <div class="row mt-60">
+                        <div class="col-12">
+                            <h2 class="section-title style-1 mb-30">Related products</h2>
+                        </div>
+                        <div class="col-12">
+                            <div class="row related-products">
+                                @foreach ($products as $product)
+                                
+                                <div class="col-lg-1-5 col-md-4 col-12 col-sm-6 " >
+                                    <div class="product-cart-wrap mb-30">
+                                        <div class="product-img-action-wrap">
+                                            <div class="product-img product-img-zoom">
+                                                <a href="{{route('product-details',['id'=>$product->id])}}">
+                                                    <img class="default-img" src="data:image/png;base64,{{$product->url}}" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="product-action-1">
+
+                                            </div>
+                                            <div
+                                                class="product-badges product-badges-position product-badges-mrg">
+                                                <span class="sale">Sale</span>
+                                            </div>
+                                        </div>
+                                        <div class="product-content-wrap">
+
+                                            <h2><a
+                                                    href="#">{{ $product->title }}</a>
+                                            </h2>
+                                            <div class="product-rate-cover">
+
+                                            </div>
+                                            <div>
+                                                <span class="font-small text-muted">By <a
+                                                        href="#">Admin</a></span>
+                                            </div>
+                                            <div class="product-card-bottom">
+                                                <div class="product-price">
+                                                    <span>Kshs {{$product->price}}</span>
+
+                                                </div>
+                                                <div class="add-cart">
+                                                    {{-- <a class="add" href="shop-cart.html"><i class="fi-rs-shopping-cart mr-5"></i>Add </a> --}}
+                                                    <button onclick="addtocart({{$product->id}})" id="add-cart" style="color: #3BB77E; border:none;"  class="add"><i class="fi-rs-shopping-cart mr-5"></i>Add </button>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                            </div>
                         </div>
                     </div>
                   
@@ -84,4 +140,58 @@
         </div>
     </div>
 </main>
+<input type="hidden" id="loginId" @if (Auth::check())
+    value="true" @endif>
+
 @yield('footer')
+
+<script>
+    function updateCart(){
+    $.ajax({
+            type: "GET",
+            url: "{{route('cartcount')}}",
+            success: function (response) {
+
+                $('.pro-count').each(function(){
+                    $(this).html(response.count);
+                });
+            }
+        });
+    }
+    function addtocart(id) {
+        // get value input id loginId
+        var loginId = document.getElementById('loginId').value;
+        // if not null redirect to login page
+        if (loginId !== 'true') {
+            window.location.href = "{{ route('login') }}";
+        }
+
+        $.ajax({
+            url: "{{ route('addtocart') }}",
+            type: "POST",
+            data: {
+                id: id,
+                _token: "{{ csrf_token() }}",
+            },
+            success: function(response) {
+                updateCart()
+
+                if (response.redirect) {
+                    window.location.href = response.redirect;
+                } else if (response.error) {
+
+                    toastr["error"](response.error);
+
+                } else {
+                    toastr["success"](response.success);
+                }
+            },
+
+            error: function(response) {
+                console.log(response.error);
+
+            },
+        });
+    }
+
+</script>

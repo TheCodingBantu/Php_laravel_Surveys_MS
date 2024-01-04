@@ -18,7 +18,7 @@
                                     <line x1="20" y1="8" x2="20" y2="14"></line>
                                     <line x1="23" y1="11" x2="17" y2="11"></line>
                                 </svg></div>
-                            Employee Details
+                            User Details
                         </h1>
                     </div>
                     <div class="col-12 col-xl-auto mb-3">
@@ -53,7 +53,7 @@
                                 <div class="col-md-6">
                                     <label class="small mb-1" for="inputFirstName">Name</label>
                                     <input value="{{$user->name}}" required name="name" class="form-control"
-                                        id="inputFirstName" type="text" placeholder="Enter Employee name">
+                                        id="inputFirstName" type="text" placeholder="Enter  name">
                                 </div>
 
 
@@ -61,7 +61,7 @@
                                 <div class="col-md-6">
                                     <label class="small mb-1" for="inputLastName">Email</label>
                                     <input value="{{$user->email}}" name="email" required type="email"
-                                        class="form-control" type="text" placeholder="Enter employee email">
+                                        class="form-control" type="text" placeholder="Enter  email">
                                 </div>
                             </div>
                             <!-- Form Group (email address)-->
@@ -71,14 +71,14 @@
                                     <label class="small mb-1" for="">Phone</label>
                                     <input value="{{$user->phone}}" required name="phone" type="number"
                                         class="form-control" id="inputFirstName" type="text"
-                                        placeholder="Enter Employee Phone">
+                                        placeholder="Enter  Phone">
                                 </div>
                                 <!-- Form Group (last name)-->
                                 <div class="col-md-6">
                                     <label class="small mb-1" for="">Address</label>
                                     <input value="{{ $user->address }}" name="address" required type="text"
                                         class="form-control" id="inputLastName" type="text"
-                                        placeholder="Enter employee address">
+                                        placeholder="Enter  address">
                                 </div>
                             </div>
 
@@ -126,7 +126,7 @@
 
                             </div>
                             <!-- Submit button-->
-                            <button class="btn btn-primary" type="submit">Update Employee</button>
+                            <button class="btn btn-primary" type="submit">Update User</button>
                         </form>
                     </div>
                 </div>

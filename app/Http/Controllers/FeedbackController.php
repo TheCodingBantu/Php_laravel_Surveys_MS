@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SentimentAnalysisJob;
 use App\Models\Branch;
-use App\Models\Customer;
 use App\Models\Feedback;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 class FeedbackController extends Controller
 {
 
     public function index()
     {
-        $feedback=Feedback::where('user_id',Auth::user()->id)->with('customer')->with('branch')->get();
+        $feedback=Feedback::with('customer')->with('branch')->get();
 
         return view('feedback-page',compact('feedback'));
     }
@@ -56,18 +55,22 @@ class FeedbackController extends Controller
             // feedback id
             $update=Feedback::find($feedback->id);
             $update->rating = $request->rating;
-            $update->comments = $request->comments;
-            $update->recommendation = $request->recommendation;
+            $update->rating_comments= $request->rating_comments;
+            $update->overall_rating = $request->overall_rating;
+            $update->overall_comments = $request->overall_comments;
             $update->token = '';
             $update->status = 'received';
             $update->save();
 
+            $sentiment_comments=[$request->rating_comments,$request->overall_comments];
+            dispatch(new SentimentAnalysisJob($sentiment_comments,$feedback->id));
+
 
             $user=User::find((Branch::find($feedback->branch_id))->user_id);
+            Notification::send($user, new \App\Notifications\Notifier('New Feedback received '));
+            return redirect()->route('');
+            return redirect()->route('feedback-list')->withInput()->with('success', 'Thankyou for your feedback !');
 
-
-            Notification::send($user, new \App\Notifications\LeaveActions('New Feedback received '));
-            return view('feedback-success');
         }
 
     }

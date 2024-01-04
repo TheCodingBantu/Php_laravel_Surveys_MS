@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Address;
-class FeedbackMail extends Mailable
+class FeedbackMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
     public $token;
@@ -17,18 +17,20 @@ class FeedbackMail extends Mailable
     public $name;
     public $date;
     public $user_id;
+    public $feedback_url;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($token,$branch,$name,$date,$user_id)
+    public function __construct($token,$branch,$name,$date,$user_id, $feedback_url)
     {
       $this->token=$token;
       $this->branch=$branch;
       $this->name=$name;
       $this->date=$date;
       $this->user_id=$user_id;
+      $this->feedback_url=$feedback_url;
 
     }
 

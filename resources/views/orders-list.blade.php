@@ -86,7 +86,9 @@
                                     </select>
                                     
                                 </td>
-                                <td><button onclick="updateStatus({{$order->id}})" class="btn btn-success btn-sm">Update</button></td>
+                                <td><button onclick="updateStatus({{$order->id}})" @if ($order->status == count($steps)-1) disabled
+                                    
+                                @endif class="btn btn-success btn-sm">Update</button></td>
                             </tr>
                             @endforeach
                             @endif
@@ -139,6 +141,21 @@
 
 @yield('footer')
 <script>
+    let params = (new URL(document.location)).searchParams;
+    let success_ = params.get("success");
+    let error_ = params.get("error");
+
+    let myNewURL="{{route('adminorders')}}"
+    if(success_){
+        toastr["success"](success_);
+        window.history.pushState(null, '',myNewURL );
+    }
+    if(error_){
+        toastr["error"](error_);
+        window.history.pushState(null, '',myNewURL );
+    }
+
+
     function updateStatus(id){
         let status = document.getElementById('select_'+id).value
         $.ajax({
@@ -155,10 +172,14 @@
                     window.location.href = response.redirect;
                 } else if (response.error) {
 
-                    toastr["error"](response.error);
+                    let url = window.location.href
+                    window.location=(url+= `?error=${response.error}`);
 
                 } else {
-                    toastr["success"](response.success);
+                    // toastr["success"](response.success);
+                    let url = window.location.href
+                    window.location=(url+= `?success=${response.success}`);
+
                 }
             },
 

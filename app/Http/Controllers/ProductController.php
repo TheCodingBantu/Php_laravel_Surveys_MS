@@ -130,8 +130,9 @@ class ProductController extends Controller
     public function productDetails($id){
         // get product details by id
         $product = Product::find($id);
+        $products = Product::inRandomOrder()->take(5)->get();
         // return view product details
-        return view('product-details', compact('product'));
+        return view('clientui.product-details', compact('product','products'));
 
     }
 }

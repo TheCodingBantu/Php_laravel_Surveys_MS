@@ -27,6 +27,11 @@ class CartController extends Controller
         return redirect()->back()->with('success', 'Cart Cleared');
     }
 
+    public function deletecartitem($id){
+        Cart::find($id)->delete();
+        return redirect()->back()->with('success', 'Item removed from cart');
+    }
+
     public function store(Request $request)
     {
 
@@ -91,7 +96,7 @@ class CartController extends Controller
         $lp = $customer->lp;
         $branches =  Branch::all();
         
-        return view('clientui.checkout', compact('cart','lp','branches'));
+        return view('clientui.checkout', compact('cart','lp','branches','customer'));
       
     }
 
@@ -119,6 +124,7 @@ class CartController extends Controller
 
         //create order
         $order = new Order();
+        $order->order_number = 'ORD_'.rand(1000, 9999);
         $order->user_id = auth()->user()->id;
         $order->payment_method = 'Cash';
         $order->delivery_address = auth()->user()->id;
@@ -127,7 +133,7 @@ class CartController extends Controller
         $order->item_quantities =json_encode($item_quantities);
         $order->item_totals =json_encode($item_totals);
         $order->total = array_sum($item_totals) -( $lp>0?$lp:0);
-        $order->status = 'Pending';	
+        $order->status = 0;	
         $order->branch_id= $request->input('branch');
         $order->redeemed_lp = $lp;
         $order->save();

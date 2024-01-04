@@ -80,7 +80,7 @@
                                             <div class="product-cart-wrap mb-30">
                                                 <div class="product-img-action-wrap">
                                                     <div class="product-img product-img-zoom">
-                                                        <a href="#">
+                                                        <a href="{{route('product-details',['id'=>$product->id])}}">
                                                             <img class="default-img" src="data:image/png;base64,{{$product->url}}" alt="">
                                                         </a>
                                                     </div>
@@ -194,5 +194,6 @@
             },
         });
     }
+
 
 </script>

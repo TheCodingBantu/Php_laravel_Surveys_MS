@@ -74,8 +74,13 @@
                                         <h4 id="{{ 'product' . $item->id }}" class="text-brand item-price">
                                             {{ $item->getProductRelation->price }}</h4>
                                     </td>
-                                    <td class="action text-center" data-title="Remove"><a href="#"
-                                            class="text-body"><i class="fi-rs-trash"></i></a></td>
+                                    <td class="action text-center" data-title="Remove">
+                                        <form method="POST" action="{{route('deleteCartItem',['id'=>$item->id])}}">
+                                            @csrf
+                                        <button type="submit" class="text-body"><i class="fi-rs-trash text-white"></i></button>
+                                    </form>
+                                    
+                                    </td>
                                 </tr>
                             @endforeach
 
@@ -85,7 +90,7 @@
                 </div>
                 <div class="divider-2 mb-30"></div>
                 <div class="cart-action d-flex justify-content-between">
-                    <a class="btn" onclick="history.back()"><i class="fi-rs-arrow-left mr-10"></i>Continue
+                    <a class="btn" href="{{route('home')}}"><i class="fi-rs-arrow-left mr-10"></i>Continue
                         Shopping</a>
 
                     <a onclick="location.reload()" class="btn   mr-10 mb-sm-15"><i

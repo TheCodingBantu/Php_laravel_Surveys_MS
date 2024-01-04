@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\MailHelper;
-use App\Helpers\SentimentAnalysis;
 use App\Models\Feedback;
 use App\Models\Visit;
 use App\Models\Branch;
@@ -35,8 +34,6 @@ class VisitController extends Controller
         //     'email' => 'required|email',
         // ]);
         
-       
-
         $retrieved_order = Order::find($request->id);
         $retrieved_user=User::find($retrieved_order->user_id);
         $steps=json_decode(env('ORDER_STEPS'), true);
@@ -46,7 +43,7 @@ class VisitController extends Controller
             // update
             $retrieved_order->status = $request->status;
             $retrieved_order->save();
-            return response()->json(['success' => 'Status Updated']);
+            return response()->json(['success' => 'Order Status Updated']);
 
         }
 
@@ -81,8 +78,7 @@ class VisitController extends Controller
                 } catch (\Throwable $th) {
                     error_log($th->getMessage());
                 }
-            // return redirect()->back()->with('success', 'Visit initiated');
-            
+         
             return response()->json(['success' => 'Survey form sent']);
 
         }
@@ -92,9 +88,5 @@ class VisitController extends Controller
 
     }
 
- public function test(){
-  SentimentAnalysis::get_analysis('data');
-
- }
 
 }

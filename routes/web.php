@@ -65,8 +65,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/export/csv', [CsvController::class, 'exportCSV'])->name('export-csv');
 
     //client UI
+    Route::get('/product-details/{id}', [ProductController::class, 'productDetails'])->name('product-details');
+
     Route::get('/cart', [CartController::class, 'index'])->name('cart');
     Route::post('/clearCart', [CartController::class, 'clearCart'])->name('clearCart');
+    Route::post('/delete/cart{id}', [CartController::class, 'deletecartitem'])->name('deleteCartItem');
+
     Route::post('/updateCart', [CartController::class, 'updateCart'])->name('updateCart');
     Route::get('/cartcount', [CartController::class, 'getCount'])->name('cartcount');
     Route::post('/addtocart', [CartController::class, 'store'])->name('addtocart');
@@ -79,16 +83,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/client/profile', [ClientProfileController::class, 'destroy'])->name('clientprofile.destroy');
 
     Route::get('/orders', [OrderController::class, 'index'])->name('orders');
-    Route::get('/order/tracking', [OrderController::class, 'tracking'])->name('ordertracking');
+    Route::get('/order/tracking/{id}', [OrderController::class, 'tracking'])->name('ordertracking');
+    Route::post('/order/search', [OrderController::class, 'ordersearch'])->name('ordersearch');
 
     Route::get('/order/all', [OrderController::class, 'adminOrdersList'])->name('adminorders');
 
-
-
-
     Route::get('/my/feedback', [OrderController::class, 'feedbacklist'])->name('feedback-list');
-    Route::get('/test', [VisitController::class, 'test']);
-
 
 
 });

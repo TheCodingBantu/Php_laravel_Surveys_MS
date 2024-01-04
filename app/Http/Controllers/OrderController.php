@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Branch;
 use App\Models\Cart;
+use App\Models\Feedback;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
@@ -44,7 +45,21 @@ class OrderController extends Controller
         return redirect()->back()->with('success', 'Order Updated');
     }
 
-    public function tracking(){
-        return view('clientui.tracking');
+    public function tracking($id){
+        $steps=json_decode(env('ORDER_STEPS'), true);
+        $step_numbers=$indexesArray = array_keys($steps);
+        $order = Order::where('order_number', '=', $id)->first();
+        return view('clientui.tracking',compact('order','steps','step_numbers'));
+    }
+
+    public function feedbacklist(){
+        $responses = Feedback::where('user_id', '=', auth()->user()->id)->get();
+        return view ('client_feedback_list', compact('responses'));
+    }
+
+    public function ordersearch(Request $request){
+     $order = Order::where('order_number', '=', $request->input('order_number'))->first();
+     return view('clientui.tracking', compact('order'));
+
     }
 }

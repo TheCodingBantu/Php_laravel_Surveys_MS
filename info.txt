@@ -1,31 +1,19 @@
-Loyalty Point redemption
-See past orders
-see past survey data
 
-Each order has an order number
+Remaining:
 
-Reedeeming loyalty points
-------------------------
-On checkout, enter the number of ppints to remeedm 1 LP= kshs 100
+Finish order status tracking page
 
 Admin To approve loyalty points allocation
-AI for sentiment analysis
 
 
-gender selector, age and who the client was served by.
+Dashboards
+Per branch
+_ nps analysis
+_sentimnt analysis
 
+average NPS rating
+a piechart for feedback sentiment distrubution(globally)
 
-Survey questions
-Age
-gender
-branch of order collection
-rate experience 1-10
-Explain why the above rating was given
-overall exoerience 
-explain the above
+Response by gender
 
-
-We need 3 branched
-Junction Mall
-Village Market 
-Garden City
+Send notifications on : Order Update, Feedback Received

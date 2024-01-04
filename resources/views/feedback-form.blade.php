@@ -31,14 +31,16 @@
 
         <div class="container">
             <div class="wrapper">
+                <h3 style="text-align:center; font-weight:bold; margin-bottom:1.5rem " >Feedback Survey</h3>
                 <div class="row">
+                    
                     <div class="col-md-6 rating-reveal tab-100 mx-auto">
-                        <h3 class="col-8 mb-4 mx-auto">{{$branch}} Survey</h3>
+                        
 
                         <div class="productRating">
                             <form method="post" novalidate action="{{route('feedback-post')}}">
                                 @csrf
-                                <h2 class="ratingHead">How Likely are you to recommend the business to others?</h2>
+                                <h2 class="ratingHead">How would you rate the branch experience from 1-10</h2>
 
                                 <div class="ratingBar">
                                     <div class="rangeNumber">
@@ -54,7 +56,7 @@
                                         <span class="number">9</span>
                                         <span class="number">10</span>
                                     </div>
-                                    <input type="range" name="recommendation" id="bar" min="0" max="10" value="0" step="0.01">
+                                    <input type="range" name="rating" id="bar" min="0" max="10" value="0" step="0.01">
                                     <div class="likeThumb">
                                         <div class="thumbsingle">
                                             <img src="{{asset('form/assets/images/thumbDown.png')}}" alt="thumb">
@@ -66,8 +68,12 @@
                                         </div>
                                     </div>
                                 </div>
+                                <h2 class="ratingHead">Please explain the above rating</h2>
 
-                                <h2 class="ratingHead">Please rate your visit experience</h2>
+                                <textarea name="rating_comments" id="maesage"></textarea>
+
+
+                                <h2 class="ratingHead">How would you rate your overall shopping experience from 1-10</h2>
 
                                 <div class="ratingBar">
                                     <div class="rangeNumber" id="rangeNumber">
@@ -83,7 +89,7 @@
                                         <span class="number">9</span>
                                         <span class="number">10</span>
                                     </div>
-                                    <input type="range" name="rating" id="rating" min="0" max="10" value="0" step="0.01" placeholder="Please comment here ...">
+                                    <input type="range" name="overall_rating" id="rating" min="0" max="10" value="0" step="0.01" placeholder="Please comment here ...">
                                     <input type="hidden" name="uid" value="{{ app('request')->input('uid') }}">
                                     <input type="hidden" name="token" value="{{ app('request')->input('token') }}">
                                     <div class="likeThumb">
@@ -99,9 +105,9 @@
                                     </div>
                                 </div>
 
-                                <h2 class="ratingHead">Please comment on how to improve the service or what you enjoyed</h2>
+                                <h2 class="ratingHead">Please explain the above rating</h2>
 
-                                <textarea name="comments" id="maesage"></textarea>
+                                <textarea name="overall_comments" id="maesage"></textarea>
 
                                 <button class="btn btn-success" id="sub" type="submit">Send Feedback</button>
                             </form>

@@ -60,27 +60,27 @@
             <div class="col-lg-5 border p-4">
 
                 <div class="row">
-                    <h4 class="mb-30">Billing Details</h4>
+                    <h4 class="mb-30">Order Details</h4>
                     <form method="POST" action="{{route('createOrder')}}">
 
                         <div class="row">
                             <div class="form-group">
                                 <label for="">Full Name</label>
-                                <input type="text" required="" name="name" placeholder="Name *">
+                                <input type="text"  name="name" readonly placeholder="{{$customer->name}}" >
                             </div>
                             <div class="form-group ">
                                 <label for="">Email Address</label>
-                                <input type="text" required="" name="email" placeholder="Email *">
+                                <input type="text" required="" name="email" readonly placeholder="{{$customer->email}}">
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group">
                                 <label for="">Phone Number</label>
-                                <input type="text" name="phone" required="" placeholder="Phone *">
+                                <input type="text" name="phone" required="" readonly placeholder="{{$customer->phone}}">
                             </div>
                             <div class="form-group" >
                                 <label for="">Payment Method</label>
-                                <input type="text" name="" required="" value="Cash" readonly>
+                                <input type="text" name="" required="" readonly placeholder="Cash" readonly>
                             </div>
                         </div>
                         <div class="row">
