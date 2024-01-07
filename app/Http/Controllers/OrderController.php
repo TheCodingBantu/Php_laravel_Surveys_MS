@@ -49,7 +49,8 @@ class OrderController extends Controller
         $steps=json_decode(env('ORDER_STEPS'), true);
         $step_numbers=$indexesArray = array_keys($steps);
         $order = Order::where('order_number', '=', $id)->first();
-        return view('clientui.tracking',compact('order','steps','step_numbers'));
+        $dates = json_decode($order->tracking_dates);
+        return view('clientui.tracking',compact('order','steps','step_numbers','dates'));
     }
 
     public function feedbacklist(){

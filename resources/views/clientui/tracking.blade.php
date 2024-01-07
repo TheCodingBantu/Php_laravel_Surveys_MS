@@ -206,23 +206,24 @@
         }
     }
 
-    #ordersearch{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 60%;
-    margin-bottom: 10px;
+    #ordersearch {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 60%;
+        margin-bottom: 10px;
 
     }
-    #ordersearch input{
+
+    #ordersearch input {
         width: 300px;
         height: 40px;
-        border-radius: 0px!important;
+        border-radius: 0px !important;
 
     }
 
-    #ordersearch button{
+    #ordersearch button {
         outline: none;
         border: none;
         background-color: #78cd0e;
@@ -232,11 +233,11 @@
         height: 40px;
         padding: 0 1rem;
     }
-    #inputcontainer{
+
+    #inputcontainer {
         display: flex;
         flex-direction: row;
     }
-
 </style>
 <main class="main ">
     <div class="page-header breadcrumb-wrap">
@@ -249,41 +250,42 @@
         </div>
     </div>
     <div class="container mb-80 mt-50">
-       
+
         <div style="margin-left: 8rem">
-            <div class="row" id="" >
+            <div class="row" id="">
                 <div id="ordersearch">
                     <span style="font-weight: bold; font-size:1.3rem">Track My Order </span>
-                    
+
                     <div id="inputcontainer">
-                        <form action="{{route('ordersearch')}}" method="POST">
+                        <form action="{{ route('ordersearch') }}" method="POST">
                             @csrf
-                        <input type="text" name="" placeholder="search order number" id="">
-                       
-                        <button type="submit">Search</button>
-                    </form>
+                            <input type="text" name="" placeholder="search order number" id="">
+
+                            <button type="submit">Search</button>
+                        </form>
                     </div>
-                   
+
                 </div>
-                
+
             </div>
             <h3 style="">Order Status</h3>
-            <p style="text-decoration: underline; margin-left:10px; margin-top:10px">#{{$order->order_number}}</p>
-        <hr>
+            <p style="text-decoration: underline; margin-left:10px; margin-top:10px">#{{ $order->order_number }}</p>
+            <hr>
         </div>
         {{-- start html --}}
         <div class="container py-5 " style="padding-top:0px!important">
-            
+
             <div class="row">
 
                 <div class="col-lg-8">
-                 
+
                     <div id="tracking-pre"></div>
                     <div id="tracking">
                         <div class="tracking-list">
                             <div class="tracking-item">
-                                <div class="tracking-icon 
-                                @if ($order->status == $step_numbers[0]) status-current blinker @endif">
+                                <div
+                                    class="tracking-icon 
+                                @if ($order->status <= $step_numbers[0]) status-current blinker @else status-intransit @endif">
                                     <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true" data-prefix="fas"
                                         data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 512 512" data-fa-i2svg="">
@@ -295,26 +297,23 @@
                                 <div class="tracking-date"><img
                                         src="https://raw.githubusercontent.com/shajo/portfolio/a02c5579c3ebe185bb1fc085909c582bf5fad802/delivery.svg"
                                         class="img-responsive" alt="order-placed" /></div>
-                                <div class="tracking-content">{{$steps[0]}}<span>{{$order->created_at}}</span></div>
-                            </div>
-                            <div class="tracking-item-pending">
-                                <div class="tracking-icon status-intransit ">
-                                    <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true" data-prefix="fas"
-                                        data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 512 512" data-fa-i2svg="">
-                                        <path fill="currentColor"
-                                            d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z">
-                                        </path>
-                                    </svg>
-                                </div>
-                                <div class="tracking-date"><img
-                                        src="https://raw.githubusercontent.com/shajo/portfolio/a02c5579c3ebe185bb1fc085909c582bf5fad802/delivery.svg"
-                                        class="img-responsive" alt="order-placed" /></div>
-                                <div class="tracking-content">{{$steps[1]}}<span>10 Aug 2025, 02:00pm</span>
+
+                                <div class="tracking-content">{{ $steps[0] }}
+                                    <span>
+                                        @if ($order->status >= $step_numbers[0])
+                                            {{ $dates[0] }}
+                                        @endif
+                                    </span>
                                 </div>
                             </div>
-                            <div class="tracking-item-pending">
-                                <div class="tracking-icon status-intransit">
+                            <div
+                                class="
+                            @if ($order->status >= $step_numbers[1]) tracking-item  @else tracking-item-pending @endif
+                            
+                            ">
+                                <div
+                                    class="tracking-icon 
+                                 @if ($order->status == $step_numbers[1]) status-current blinker @else status-intransit @endif">
                                     <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true" data-prefix="fas"
                                         data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 512 512" data-fa-i2svg="">
@@ -326,12 +325,54 @@
                                 <div class="tracking-date"><img
                                         src="https://raw.githubusercontent.com/shajo/portfolio/a02c5579c3ebe185bb1fc085909c582bf5fad802/delivery.svg"
                                         class="img-responsive" alt="order-placed" /></div>
-                                <div class="tracking-content">{{$steps[2]}}<span>10 Aug 2025, 03:00pm</span>
+                                <div class="tracking-content">{{ $steps[1] }}
+                                    <span>
+                                        @if ($order->status >= $step_numbers[1])
+                                            {{ $dates[1] }}
+                                        @endif
+                                    </span>
+
+                                </div>
+                            </div>
+                            <div
+                                class="
+                            @if ($order->status >= $step_numbers[2]) tracking-item  @else tracking-item-pending @endif
+                            
+                            ">
+                                <div
+                                    class="tracking-icon
+                                @if ($order->status == $step_numbers[2]) status-current blinker @else status-intransit @endif
+                                ">
+                                    <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true" data-prefix="fas"
+                                        data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 512 512" data-fa-i2svg="">
+                                        <path fill="currentColor"
+                                            d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <div class="tracking-date"><img
+                                        src="https://raw.githubusercontent.com/shajo/portfolio/a02c5579c3ebe185bb1fc085909c582bf5fad802/delivery.svg"
+                                        class="img-responsive" alt="order-placed" /></div>
+                                <div class="tracking-content">{{ $steps[2] }}
+                                    <span>
+                                        @if ($order->status >= $step_numbers[2])
+                                            {{ $dates[2] }}
+                                        @endif
+                                    </span>
+
                                 </div>
                             </div>
 
-                            <div class="tracking-item-pending">
-                                <div class="tracking-icon status-intransit">
+                            <div
+                                class="
+                            @if ($order->status >= $step_numbers[3]) tracking-item  @else tracking-item-pending @endif
+
+                            ">
+                                <div
+                                    class="tracking-icon
+                                @if ($order->status == $step_numbers[3]) status-current blinker @else status-intransit @endif
+                                ">
                                     <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true" data-prefix="fas"
                                         data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 512 512" data-fa-i2svg="">
@@ -343,10 +384,17 @@
                                 <div class="tracking-date"><img
                                         src="https://raw.githubusercontent.com/shajo/portfolio/a02c5579c3ebe185bb1fc085909c582bf5fad802/delivery.svg"
                                         class="img-responsive" alt="order-placed" /></div>
-                                <div class="tracking-content">{{$steps[3]}}<span>12 Aug 2025, 05:00pm</span></div>
+                                <div class="tracking-content">{{ $steps[3] }}
+                                    <span>
+                                        @if ($order->status >= $step_numbers[3])
+                                            {{ $dates[3] }}
+                                        @endif
+                                    </span>
+
+                                </div>
                             </div>
-                            <div class="tracking-item-pending">
-                                <div class="tracking-icon status-intransit">
+                            <div class=" @if ($order->status >= $step_numbers[4]) tracking-item  @else tracking-item-pending @endif">
+                                <div class="tracking-icon @if ($order->status == $step_numbers[4]) status-current blinker @else status-intransit @endif">
                                     <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true" data-prefix="fas"
                                         data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 512 512" data-fa-i2svg="">
@@ -358,7 +406,37 @@
                                 <div class="tracking-date"><img
                                         src="https://raw.githubusercontent.com/shajo/portfolio/a02c5579c3ebe185bb1fc085909c582bf5fad802/delivery.svg"
                                         class="img-responsive" alt="order-placed" /></div>
-                                <div class="tracking-content">{{$steps[4]}}<span>12 Aug 2025, 09:00pm</span></div>
+                                <div class="tracking-content">{{ $steps[4] }}
+                                    <span>
+                                        @if ($order->status >= $step_numbers[4])
+                                            {{ $dates[4] }}
+                                        @endif
+                                    </span>
+
+                                </div>
+                            </div>
+
+                            <div class=" @if ($order->status >= $step_numbers[5]) tracking-item  @else tracking-item-pending @endif">
+                                <div class="tracking-icon @if ($order->status == $step_numbers[5]) status-current blinker @else status-intransit @endif">
+                                    <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true" data-prefix="fas"
+                                        data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 512 512" data-fa-i2svg="">
+                                        <path fill="currentColor"
+                                            d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <div class="tracking-date"><img
+                                        src="https://raw.githubusercontent.com/shajo/portfolio/a02c5579c3ebe185bb1fc085909c582bf5fad802/delivery.svg"
+                                        class="img-responsive" alt="order-placed" /></div>
+                                <div class="tracking-content">{{ $steps[5] }}
+                                    <span>
+                                        @if ($order->status >= $step_numbers[5])
+                                            {{ $dates[5] }}
+                                        @endif
+                                    </span>
+
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -366,18 +444,23 @@
 
                 <div class="col-lg-3 ">
                     <div class="card " style="margin-top:3rem">
-                        <div class="card-header" style="background-color: #78cd0e; color:white; padding-top:3rem; padding-bottom:3rem">
-                            <p style="text-align:center;font-size:1.7rem; color:white">Stage One</p>
+                        <div class="card-header"
+                            style="background-color: #78cd0e; color:white; padding-top:3rem; padding-bottom:3rem">
+                            <p style="text-align:center;font-size:1.7rem; color:white">Stage {{ $order->status + 1 }}
+                            </p>
                         </div>
                         <div class="card-body">
-                            <p style="text-align: center; font-weight:bold; color:black;" class="name">Packed the product</p>
+                            <p style="text-align: center; font-weight:bold; color:black;" class="name">
+                                {{ $steps[$order->status] }}</p>
                             <hr>
-                            <p style="text-align: center; padding-bottom:1rem">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Enim, doloribus.</p>
+                            <p style="text-align: center; padding-bottom:1rem">Order status is currently
+                                {{ "'" . $steps[$order->status] . "'" }}. <br> The order was was updated on
+                                {{ $dates[$order->status] }}</p>
 
                         </div>
-                
+
                     </div>
-                      
+
                 </div>
                 <div class="col-1"></div>
             </div>
@@ -388,9 +471,7 @@
 @yield('footer')
 
 @if (session('success'))
-<script>
-    toastr["success"](" {{ session('success') }}");
-
-</script>
+    <script>
+        toastr["success"](" {{ session('success') }}");
+    </script>
 @endif
-

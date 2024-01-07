@@ -48,22 +48,22 @@
                         <thead>
                             <tr>
                                 <th>#ID</th>
-                                <th scope="col">Total</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Date</th>
-                                <th scope="col" class="text-end">Action</th>
+                                <th >Total</th>
+                                <th >Status</th>
+                                <th >Date</th>
+                                <th  >Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($orders as $order)
                                 
                             <tr>
-                                <td>{{$order->id}}</td>
+                                <td>{{$order->order_number}}</td>
                                 <td>{{$order->total}}</td>
                                 <td><span class="badge rounded-pill alert-warning">{{$order->status}}</span></td>
                                 <td>{{\Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $order->created_at)
                                     ->format('m/d/Y H:i:s');}}</td>
-                                <td class="text-end">
+                                <td >
                                     {{-- <a href="{{route('invoice' ,$order->id)}} " class="btn btn-sm rounded font-sm">Details</a> --}}
                                     <a href="{{route('ordertracking',['id'=>$order->order_number])}} " class="btn btn-sm rounded font-sm">Details</a>
                                     

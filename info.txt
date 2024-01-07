@@ -1,8 +1,6 @@
 
 Remaining:
 
-Finish order status tracking page
-
 Admin To approve loyalty points allocation
 
 

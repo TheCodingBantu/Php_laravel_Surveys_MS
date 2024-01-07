@@ -6,6 +6,7 @@ use App\Models\Branch;
 use App\Models\Cart;
 use App\Models\Customer;
 use App\Models\Order;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -121,7 +122,8 @@ class CartController extends Controller
         }
         
         // calculate total
-
+        $now [] = Carbon::now()->format('Y-m-d H:i:s');
+        
         //create order
         $order = new Order();
         $order->order_number = 'ORD_'.rand(1000, 9999);
@@ -136,6 +138,7 @@ class CartController extends Controller
         $order->status = 0;	
         $order->branch_id= $request->input('branch');
         $order->redeemed_lp = $lp;
+        $order->tracking_dates = json_encode($now);
         $order->save();
         // delete items in cart
         Cart::where('user_id', '=', auth()->user()->id)->delete();

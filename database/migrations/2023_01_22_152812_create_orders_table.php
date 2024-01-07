@@ -27,6 +27,8 @@ return new class extends Migration
             $table->json('item_totals');
             $table->string('total');
             $table->integer('status');
+            $table->json('tracking_dates')->nullable;
+
             $table->timestamps();
         });
     }
