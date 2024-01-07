@@ -59,8 +59,10 @@ class OrderController extends Controller
     }
 
     public function ordersearch(Request $request){
-     $order = Order::where('order_number', '=', $request->input('order_number'))->first();
-     return view('clientui.tracking', compact('order'));
-
+        $steps=json_decode(env('ORDER_STEPS'), true);
+        $step_numbers=$indexesArray = array_keys($steps);
+        $order = Order::where('order_number', '=', $request->input('order_number'))->first();
+        $dates = json_decode($order->tracking_dates);
+        return view('clientui.tracking',compact('order','steps','step_numbers','dates'));
     }
 }

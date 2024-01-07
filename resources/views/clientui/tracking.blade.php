@@ -259,7 +259,7 @@
                     <div id="inputcontainer">
                         <form action="{{ route('ordersearch') }}" method="POST">
                             @csrf
-                            <input type="text" name="" placeholder="search order number" id="">
+                            <input type="text" name="order_number" placeholder="search order number" value="{{ old('order_number') }}" id="">
 
                             <button type="submit">Search</button>
                         </form>
