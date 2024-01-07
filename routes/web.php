@@ -20,6 +20,8 @@ Route::get('customer/feedback', [FeedbackController::class, 'form'])->name('feed
 Route::post('customer/feedback', [FeedbackController::class, 'save'])->name('feedback-post');
 Route::post('/search', [ProductController::class, 'search'])->name('search');
 Route::post('/filter', [ProductController::class, 'filter'])->name('filter');
+    //client UI
+Route::get('/product-details/{id}', [ProductController::class, 'productDetails'])->name('product-details');
 
 
 Route::middleware('auth')->group(function () {
@@ -64,8 +66,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/csv/process', [CsvController::class,'process'])->name('csv-process');
     Route::get('/export/csv', [CsvController::class, 'exportCSV'])->name('export-csv');
 
-    //client UI
-    Route::get('/product-details/{id}', [ProductController::class, 'productDetails'])->name('product-details');
 
     Route::get('/cart', [CartController::class, 'index'])->name('cart');
     Route::post('/clearCart', [CartController::class, 'clearCart'])->name('clearCart');
