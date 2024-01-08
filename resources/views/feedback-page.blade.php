@@ -47,11 +47,11 @@
                         <thead>
                             <tr>
                                 <th data-sortable="true" ><a href="#"
-                                        class="datatable-sorter">Customer Email</a></th>
+                                        class="datatable-sorter">Customer</a></th>
                                 <th data-sortable="true" ><a href="#"
                                         class="datatable-sorter">Branch Visited</a></th>
                                 <th data-sortable="true" ><a href="#"
-                                        class="datatable-sorter">Rating</a></th>
+                                        class="datatable-sorter">Overall Rating</a></th>
                                 <th data-sortable="true" ><a href="#"
                                         class="datatable-sorter">Status</a></th>
                                 <th data-sortable="true" ><a href="#"
@@ -65,14 +65,14 @@
                             @foreach ($feedback as $record)
 
                             <tr data-index="0">
-                                <td>{{$record->customer->email}}</td>
+                                <td>{{$record->customer->name}}</td>
                                 <td>{{$record->branch->branch_name}}</td>
-                                <td>{{$record->rating}}</td>
-                                <td>{{$record->status}}</td>
+                                <td>{{$record->overall_rating}}</td>
+                                <td>
+                                <span class="badge  @if ($record->status == 'pending') bg-yellow-soft text-yellow @else bg-green-soft text-green @endif" > {{$record->status}}</span> </td>
+                                
                                 <td>{{$record->updated_at}}</td>
                                 <td>
-                                    {{-- <form style="" action="{{route('delete-department')}}" method="POST">
-                                        @csrf --}}
                                     <button onclick="viewFeedback({{$record->id}})" class="btn btn-datatable btn-icon btn-transparent-dark me-2" type="button"
                                         data-bs-toggle="modal" data-bs-target=""><svg
                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -83,6 +83,7 @@
                                             <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z">
                                             </path>
                                         </svg></button>
+                                        <button class="btn btn-sm  @if ($record->approved_lp > 0 ) btn-success @else btn-secondary @endif" @if ($record->approved_lp > 0 ) disabled @endif onclick="approveLP({{$record->customer->id .','. $record->id}})" > @if ($record->approved_lp > 0 ) LP approved @else Approve LP @endif</button>
 
                                 </td>
 
@@ -110,28 +111,39 @@
 
                  <div class="mb-0">
                      <label class="mb-1 small text-muted" for="formGroupName">Customer Name</label>
-                     <input readonly id="customer-name" class="form-control" name="name" type="text" value="" />
+                     <input  id="customer-name"  class="form-control" name="name" type="text" value="" />
                  </div>
-                 <div class="mb-0">
-                     <label class="mb-1 small text-muted" for="formGroupName">Customer Email</label>
-                     <input readonly id="customer-email" class="form-control"  type="text" value="" />
-                 </div>
+    
                  <div class="mb-0">
                      <label class="mb-1 small text-muted" for="formGroupName">Branch Visited</label>
-                     <input readonly id="branch-name" class="form-control"  type="text" value="" />
+                     <input  id="branch-name" class="form-control"  type="text" value="" />
                  </div>
                  <div class="mb-0">
                      <label class="mb-1 small text-muted" for="formGroupName">Rating</label>
-                     <input readonly id="rating" class="form-control"  type="text" value="" />
+                     <input  id="rating" class="form-control"  type="text" value="" />
                  </div>
                  <div class="mb-0">
-                     <label class="mb-1 small text-muted" for="formGroupName">How Likely to Recommend</label>
-                     <input readonly id="recommendations" class="form-control"  type="text" value="" />
+                     <label class="mb-1 small text-muted" for="formGroupName">Rating Comments</label>
+                     <textarea  name="" id="rating-comments" class="form-control"></textarea>
+
                  </div>
                  <div class="mb-0">
-                     <label class="mb-1 small text-muted" for="formGroupName">Comments</label>
-                     <textarea readonly name="" id="comments" class="form-control"  cols="10" rows="10"></textarea>
+                    <label class="mb-1 small text-muted" for="formGroupName">Rating comment Sentiment</label>
+                    <input  id="rating-sentiment" class="form-control"  type="text" value="" />
+                </div>
+                <div class="mb-0">
+                    <label class="mb-1 small text-muted" for="formGroupName">Overall Rating</label>
+                    <input  id="overall-rating" class="form-control"  type="text" value="" />
+                </div>
+                 <div class="mb-0">
+                     <label class="mb-1 small text-muted" for="formGroupName">Overall  Comments</label>
+                     <textarea  name="" id="overall-comments" class="form-control" ></textarea>
                  </div>
+                
+                 <div class="mb-0">
+                    <label class="mb-1 small text-muted" for="formGroupName">Overall comment sentiment</label>
+                    <input  id="overall-sentiment" class="form-control"  type="text" value="" />
+                </div>
          </div>
          <div class="modal-footer">
              {{-- <button class="btn btn-info-soft" type="button"
@@ -158,15 +170,46 @@
             dataType: 'json',
             success: function(response){
                 $('#customer-name').val(response[0].customer.name);
-                $('#customer-email').val(response[0].customer.email);
                 $('#branch-name').val(response[0].branch.branch_name);
                 $('#rating').val(response[0].rating);
-                $('#recommendations').val(response[0].recommendation);
-                $('#comments').val(response[0].comments);
+                $('#rating-comments').val(response[0].rating_comments);
+                $('#rating-sentiment').val(response[0].rating_sentiment);
+                $('#overall-rating').val(response[0].overall_rating);
+                $('#overall-comments').val(response[0].overall_comments);
+                $('#overall-sentiment').val(response[0].overall_sentiment);
+
                 $('#editGroupModal').modal('show');
 
             }
         });
 
+    }
+
+    function approveLP(custid,feedbackid){
+        $.ajax({
+            url: "{{ route('approvelp') }}",
+            type: "POST",
+            data: {
+                id: custid,
+                feedback:feedbackid,
+                _token: "{{ csrf_token() }}",
+            },
+            success: function(response) {
+                console.log(response);
+                
+               if(response.success){
+                toastr.success(response.success);
+               }
+               if(response.error){
+                toastr.error(response.error);
+
+               }
+            },
+
+            error: function(response) {
+                console.log(response.error);
+
+            },
+        });
     }
 </script>

@@ -38,7 +38,7 @@
                         <thead>
                             <tr>
                                 <th data-sortable="true"><a href="#">Order #</a></th>
-                                <th data-sortable="true"><a href="#">Date</a></th>
+                                <th data-sortable="true"><a href="#">Order Date</a></th>
                                 <th data-sortable="true"><a href="#">Collection Branch</a></th>
                                 <th data-sortable="true"><a href="#">Status</a></th>
                                 <th data-sortable="true"><a href="#">Update Status</a></th>
@@ -53,13 +53,14 @@
                             @foreach ($orders as $order)
 
                             <tr >
-                                <td>{{$order->user->name}}</td>
+                                <td>{{$order->order_number}}</td>
                                 <td>{{$order->created_at}}</td>
                                 <td>{{$order->branch->branch_name}}</td>
                                 <td>
                                     @foreach ($steps as $key => $value)
                                     @if ($key==$order->status)
-                                        {{$value}}
+                                    <span class=" badge @if ($order->status == count($steps)-1) bg-green-soft text-green @else bg-yellow-soft text-yellow @endif">{{$value}}</span>
+                                        
                                     @endif
                                     @endforeach
                                 </td>

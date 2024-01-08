@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         {{-- bootstrap css --}}
 
-        <title></title>
+        <title>Macho Poa Dashboard</title>
         <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
         <link rel="icon" type="image/x-icon" href="#" />
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
@@ -62,6 +62,22 @@
             left: 10px;
             /* changed */
         }
+        #site{
+            background-color: #e7e3e3;
+            text-decoration: none;
+            color: black;
+            padding: 0.5rem;
+            padding-left: 1.1rem;
+            margin-bottom: 2rem;
+            margin-top: 1rem;
+            width: 100%;
+            font-weight:bold;
+            cursor: pointer;
+
+        }
+        #site:hover{
+            color: blueviolet;
+        }
     </style>
 
     <body class="nav-fixed">
@@ -71,6 +87,8 @@
             <button class="btn btn-icon btn-transparent-dark order-1 order-lg-0 me-2 ms-lg-2 me-lg-0" id="sidebarToggle"><i
                     data-feather="menu"></i></button>
 
+            
+                    
             <a class="navbar-brand pe-3 ps-4 ps-lg-2" href="{{ route('dashboard') }}">E Survey</a>
 
             <form class="form-inline me-auto d-none d-lg-block me-3">
@@ -98,6 +116,7 @@
                         </form>
                     </div>
                 </li>
+                <li class="nav-item  no-caret d-sm-block me-3"><a target="__blank" href="{{route('home')}}">Macho Poa Site</a></li>
                 <!-- Alerts Dropdown-->
                 <li class="nav-item dropdown no-caret d-none d-sm-block me-3 dropdown-notifications">
 
@@ -176,6 +195,8 @@
 
                             <!-- Sidenav Heading (Custom)-->
                             <div class="sidenav-menu-heading"></div>
+                            {{-- <a id="site" href="{{route('home')}}" target="__blank">Macho Poa Site</a> --}}
+
                             <!-- Sidenav Accordion (Pages)-->
                             <a class="nav-link  @if (url()->current()==route('dashboard'))active @endif " href="{{ route('dashboard') }}">
                                 <div class="nav-link-icon"><i data-feather="grid"></i></div>

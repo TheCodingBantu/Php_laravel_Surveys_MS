@@ -14,9 +14,9 @@ class OrderController extends Controller
     public function index()
     {
     //   get all orders with same user id
-        
+        $steps=json_decode(env('ORDER_STEPS'), true);
         $orders = Order::where('user_id', '=', auth()->user()->id)->get();
-        return view('clientui.orders', compact('orders'));
+        return view('clientui.orders', compact('orders','steps'));
     }
     public function adminOrdersList()
     {

@@ -60,9 +60,14 @@
                             <tr>
                                 <td>{{$response->id}}</td>
                                 <td>{{$response->rating}}</td>
-                                <td>{{$response->rating_comments}}</td>
+                                <td @if ($response->rating_sentiment == 'negative')
+                                style='color:red' @else style='color:green'
+                                @endif >  {{ucfirst($response->rating_comments)}}</td>
                                 <td>{{$response->overall_rating}}</td>
-                                <td>{{$response->overall_comments}}</td>
+                                
+                                <td @if ($response->rating_sentiment == 'positive')
+                                    style='color:red' @else style='color:green'
+                                    @endif >  {{ucfirst($response->overall_comments)}}</td>
                                 <td class="text-end">
                                     {{-- <a href="{{route('invoice' ,$order->id)}} " class="btn btn-sm rounded font-sm">Details</a> --}}
                                     {{-- <a href="{{route('ordertracking')}} " class="btn btn-sm rounded font-sm">Details</a> --}}

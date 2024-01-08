@@ -68,7 +68,6 @@ class FeedbackController extends Controller
 
             $user=User::find((Branch::find($feedback->branch_id))->user_id);
             Notification::send($user, new \App\Notifications\Notifier('New Feedback received '));
-            return redirect()->route('');
             return redirect()->route('feedback-list')->withInput()->with('success', 'Thankyou for your feedback !');
 
         }

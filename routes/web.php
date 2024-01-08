@@ -90,6 +90,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/my/feedback', [OrderController::class, 'feedbacklist'])->name('feedback-list');
 
+    Route::post('approve-lp/', [CustomerController::class, 'approvelp'])->name('approvelp');
+
 
 });
 

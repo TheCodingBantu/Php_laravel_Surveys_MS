@@ -1,13 +1,11 @@
 
 Remaining:
 
-Admin To approve loyalty points allocation -> add button on feedback to award loyalty points
-
 
 Dashboards
 
 Per branch
-_ nps analysis
+_ nps analysisfeedb
 _sentimnt analysis
 
 average NPS rating

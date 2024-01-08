@@ -48,10 +48,10 @@
                         <thead>
                             <tr>
                                 <th>#ID</th>
-                                <th >Total</th>
-                                <th >Status</th>
-                                <th >Date</th>
-                                <th  >Action</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Order Date</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -59,8 +59,15 @@
                                 
                             <tr>
                                 <td>{{$order->order_number}}</td>
-                                <td>{{$order->total}}</td>
-                                <td><span class="badge rounded-pill alert-warning">{{$order->status}}</span></td>
+                                <td> Kshs {{$order->total}}</td>
+                                <td>
+                                @foreach ($steps as $key => $value)
+                                @if ($key == $order->status)
+                                <span class=" badge rounded-pill @if ($order->status == count($steps)-1) bg-success @else bg-warning @endif">{{$value}}</span>
+                                    
+                                @endif
+                                @endforeach
+                            </td>
                                 <td>{{\Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $order->created_at)
                                     ->format('m/d/Y H:i:s');}}</td>
                                 <td >

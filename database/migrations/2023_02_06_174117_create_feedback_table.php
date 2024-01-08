@@ -28,6 +28,7 @@ return new class extends Migration
             $table->longText('overall_comments')->nullable();
             $table->string('overall_sentiment')->nullable();
             $table->string('overall_score')->nullable();
+            $table->integer('approved_lp')->nullable();
 
             $table->timestamps();
         });
