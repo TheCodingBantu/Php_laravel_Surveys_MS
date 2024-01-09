@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -41,11 +43,27 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+        
+        Customer::create([
+            "name" => $request->name,
+            "email" => $request->email,
+            "phone" => $request->phone,
+            "dob" => Carbon::parse($request->date),
+            "gender" => $request->gender,
+            "user_id" => $user->id
+        ]);
 
         event(new Registered($user));
 
         Auth::login($user);
+        if(Auth::user()->role == 0){
+            return redirect(RouteServiceProvider::HOME);
 
-        return redirect(RouteServiceProvider::HOME);
+        }
+        else{
+            return redirect(RouteServiceProvider::DASH);
+
+        }
+
     }
 }

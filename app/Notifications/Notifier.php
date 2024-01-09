@@ -8,7 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use PhpParser\Node\Expr\Cast\Array_;
 
-class LeaveActions extends Notification
+class Notifier extends Notification
 {
     use Queueable;
     /**

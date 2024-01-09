@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Branch;
-use App\Models\Leave;
 use App\Models\User;
 use GrahamCampbell\ResultType\Success;
 use Illuminate\Auth\Events\Registered;
@@ -82,7 +81,7 @@ class ProfileController extends Controller
                 'password' => Hash::make('password'),
             ]);
             event(new Registered($user));
-            return redirect()->back()->withInput()->with('success', 'Employee created successfully');
+            return redirect()->back()->withInput()->with('success', 'created successfully');
         } catch (\Throwable $th) {
             return redirect()->back()->withInput()->with('error', $th->getMessage());
         }
@@ -91,8 +90,7 @@ class ProfileController extends Controller
     {
         try {
             User::find($request->input('id'))->delete();
-            Leave::where('user_id', $request->input('id'))->delete();
-            return redirect()->back()->withInput()->with('success', 'Employee deleted successfully');
+            return redirect()->back()->withInput()->with('success', ' deleted successfully');
         } catch (\Throwable $th) {
             return redirect()->back()->withInput()->with('error', $th);
         }

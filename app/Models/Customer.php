@@ -16,6 +16,7 @@ class Customer extends Model
         'dob',
         'gender',
         'user_id',
+        'lp'
     ];
     protected $casts = [
         'dob' => 'date:d/m/Y',

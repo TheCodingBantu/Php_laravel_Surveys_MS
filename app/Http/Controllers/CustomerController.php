@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 
 use App\Models\Customer;
+use App\Models\Feedback;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class CustomerController extends Controller
 {
@@ -26,13 +29,20 @@ class CustomerController extends Controller
    }
     public function storeCustomer(Request $request)
     {
+        // create a user relation
+        $user = User::create([
+            'name'=> $request->name,
+            'email'=> $request->email,
+            'password'=> Hash::make('password')
+        ]);
+        
         Customer::create([
             "name" => $request->name,
             "email" => $request->email,
             "phone" => $request->phone,
             "dob" => Carbon::parse($request->date),
             "gender" => $request->gender,
-            "user_id" => Auth::User()->id
+            "user_id" => $user->id
         ]);
         return redirect()->back()->withInput()->with('success', 'Customer added successfully');
 
@@ -69,4 +79,19 @@ class CustomerController extends Controller
         return redirect()->back()->withInput()->with('error', 'An Error Occured');
     }
 
+    public function approvelp(Request $request){
+        $cust = Customer::find($request->id);
+        $feedback = Feedback::find($request->feedback);
+
+        if($feedback->approved_lp > 0){
+        return response()->json(['error' => 'LP\'s already allocated']);
+
+        }
+        $cust->lp=$cust->lp + 10;
+        $cust->save();
+        $feedback->approved_lp=10;
+        $feedback->save();
+        return response()->json(['success' => '10 lps allocated']);
+    
+    }
 }

@@ -21,8 +21,15 @@ return new class extends Migration
             $table->integer('branch_id');
             $table->integer('user_id');
             $table->integer('rating')->nullable();
-            $table->integer('recommendation')->nullable();
-            $table->longText('comments')->nullable();
+            $table->longText('rating_comments')->nullable();
+            $table->string('rating_sentiment')->nullable();
+            $table->string('rating_score')->nullable();
+            $table->integer('overall_rating')->nullable();
+            $table->longText('overall_comments')->nullable();
+            $table->string('overall_sentiment')->nullable();
+            $table->string('overall_score')->nullable();
+            $table->integer('approved_lp')->nullable();
+
             $table->timestamps();
         });
     }

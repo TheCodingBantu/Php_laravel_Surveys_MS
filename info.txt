@@ -1,0 +1,16 @@
+
+Remaining:
+
+
+Dashboards
+
+Per branch
+_ nps analysisfeedb
+_sentimnt analysis
+
+average NPS rating
+a piechart for feedback sentiment distrubution(globally)
+
+Response by gender
+
+Send notifications on : Order Update, Feedback Received
