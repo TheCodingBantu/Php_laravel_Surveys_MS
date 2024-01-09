@@ -193,4 +193,8 @@ class DashboardController extends Controller
             'nps_temp'
         ));
     }
+
+    public function branchDashboard(){
+        return view('branch-dashboard');
+    }
 }
