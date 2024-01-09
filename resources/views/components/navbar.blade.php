@@ -177,11 +177,28 @@
                             <!-- Sidenav Heading (Custom)-->
                             <div class="sidenav-menu-heading"></div>
                             <!-- Sidenav Accordion (Pages)-->
-                            <a class="nav-link  @if (url()->current()==route('dashboard'))active @endif " href="{{ route('dashboard') }}">
+                            {{-- <a class="nav-link  @if (url()->current()==route('dashboard'))active @endif " href="{{ route('dashboard') }}"> --}}
+                                <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse"
+                                data-bs-target="#collapsedashboard" aria-expanded="false" aria-controls="collapseApps">
                                 <div class="nav-link-icon"><i data-feather="grid"></i></div>
-                                Dashboard
-                                <div class="sidenav-collapse-arrow"></div>
-                            </a>
+                                Dashboards
+                                <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                
+                                <div class="@if (url()->current()==route('dashboard')||url()->current()==route('branchDashboard'))@else collapse @endif"
+
+                                    id="collapsedashboard" data-bs-parent="#accordionSidenav">
+                                        <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavAppsMenus">
+                        
+                                            <a class="nav-link @if (url()->current()==route('dashboard')) active @endif " href="{{ route('dashboard') }}">
+                                                General
+                                            </a>
+                                            <a class="nav-link @if (url()->current()==route('branchDashboard')) active @endif " href="{{ route('branchDashboard') }}">
+                                                Branch
+                                            </a>
+                                        </nav>
+                                    </div>
+
                                 <!-- Sidenav Accordion (Applications)-->
                                 <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse"
                                     data-bs-target="#collapseApps" aria-expanded="false" aria-controls="collapseApps">
