@@ -1,13 +1,2 @@
 
-Remaining:
-
-
-Dashboards
-
-Per branch
-
-- Sentiment Analysis distribution per year - line graph
-- Average Sentiment in a pie chart
-- Response by Gender- Pie chart
-
 Send notifications on : Order Update, Feedback Received

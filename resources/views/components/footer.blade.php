@@ -19,6 +19,7 @@
     <script src="{{ asset('js/litepicker.js') }}"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+    <script src="{{asset('js/charts/sentimentLineChart.js')}}"></script>
     </body>
 
     </html>

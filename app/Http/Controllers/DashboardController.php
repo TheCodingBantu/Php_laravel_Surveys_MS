@@ -254,6 +254,99 @@ class DashboardController extends Controller
             $avg_rating_pm[$month] = $average;
         }
         $avg_rating_pm = array_values($avg_rating_pm);
+
+        $positive_sentiments =[];
+        $negative_sentiments =[];
+
+        $positive_sentiments_by_month = DB::table('feedback')
+        ->where('branch_id', $branch->id)
+        ->whereYear('created_at', $time->year)
+        ->where(function ($query) {
+            $query->where('rating_sentiment', 'positive')
+                ->orWhere('overall_sentiment', 'positive');
+        })
+        ->select(
+            DB::raw('MONTH(created_at) as month'),
+            DB::raw('SUM(CASE WHEN rating_sentiment = "positive" THEN 1 ELSE 0 END) + SUM(CASE WHEN overall_sentiment = "positive" THEN 1 ELSE 0 END) as count')
+   
+        )
+        ->groupBy('month')
+        ->get();
+
+        $negative_sentiments_by_month = DB::table('feedback')
+        ->where('branch_id', $branch->id)
+        ->whereYear('created_at', $time->year)
+        ->where(function ($query) {
+            $query->where('rating_sentiment', 'negative')
+                ->orWhere('overall_sentiment', 'negative');
+        })
+        ->select(
+            DB::raw('MONTH(created_at) as month'),
+            DB::raw('SUM(CASE WHEN rating_sentiment = "negative" THEN 1 ELSE 0 END) + SUM(CASE WHEN overall_sentiment = "negative" THEN 1 ELSE 0 END) as count')
+   
+        )
+        ->groupBy('month')
+        ->get();
+        
+        for ($i = 1; $i < 13; $i++) {
+            $positive_sentiments[$i] = 0;
+        }
+        foreach ($positive_sentiments_by_month as $item) {
+            $month = (int)$item->month; 
+            $count = (int)$item->count;
+            $positive_sentiments[$month] = $count;
+        }
+        $positive_sentiments = array_values($positive_sentiments);
+
+        for ($i = 1; $i < 13; $i++) {
+            $negative_sentiments[$i] = 0;
+        }
+        foreach ($negative_sentiments_by_month as $item) {
+            $month = (int)$item->month; 
+            $count = (int)$item->count;
+            $negative_sentiments[$month] = $count;
+        }
+        $negative_sentiments = array_values($negative_sentiments);
+        $sentiment_pie = [];
+        $all_positive_sentiments = DB::table('feedback')
+        ->where('branch_id', $branch->id)
+        ->where(function ($query) {
+            $query->where('rating_sentiment', 'positive')
+                ->orWhere('overall_sentiment', 'positive');
+        })
+        ->select(
+            DB::raw('SUM(CASE WHEN rating_sentiment = "positive" THEN 1 ELSE 0 END) + SUM(CASE WHEN overall_sentiment = "positive" THEN 1 ELSE 0 END) as count')
+        )->get();
+
+        $all_negative_sentiments = DB::table('feedback')
+        ->where('branch_id', $branch->id)
+        ->where(function ($query) {
+            $query->where('rating_sentiment', 'negative')
+                ->orWhere('overall_sentiment', 'negative');
+        })
+        ->select(
+            DB::raw('SUM(CASE WHEN rating_sentiment = "negative" THEN 1 ELSE 0 END) + SUM(CASE WHEN overall_sentiment = "negative" THEN 1 ELSE 0 END) as count')
+        )->get();
+
+        array_push($sentiment_pie,($all_positive_sentiments[0]->count));
+        array_push($sentiment_pie,($all_negative_sentiments[0]->count));
+
+        $feedback_pie = [];
+
+        $genderCounts = Customer::whereIn('id', function ($query) use($branch) {
+            $query->select('customer_id')->where('branch_id', $branch->id)
+                ->distinct()
+                ->from('feedback');
+        })
+        ->select('gender', DB::raw('COUNT(*) as count'))
+        ->groupBy('gender')
+        ->pluck('count', 'gender')
+        ->toArray();
+        array_push($feedback_pie,$genderCounts['Male'] ?? 0);
+        array_push($feedback_pie,$genderCounts['Female'] ?? 0);
+        array_push($feedback_pie,$genderCounts['Other'] ?? 0);
+
+
         return view('branch-dashboard', compact(
             'branches',
             'branch',
@@ -262,7 +355,11 @@ class DashboardController extends Controller
             'total_surveys_received',
             'total_average_rating',
             'greeting',
-            'avg_rating_pm'
+            'avg_rating_pm',
+            'positive_sentiments',
+            'negative_sentiments',
+            'sentiment_pie',
+            'feedback_pie'
 
         ));
     }
