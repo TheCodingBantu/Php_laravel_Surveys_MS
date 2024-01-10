@@ -136,3 +136,4 @@ var myLineChart = new Chart(ctx, {
 
 });
 }
+

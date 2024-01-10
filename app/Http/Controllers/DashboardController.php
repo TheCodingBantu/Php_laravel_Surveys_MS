@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Branch;
 use App\Models\Customer;
 use App\Models\Feedback;
+use App\Models\Order;
 use App\Models\Visit;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -194,7 +196,76 @@ class DashboardController extends Controller
         ));
     }
 
-    public function branchDashboard(){
-        return view('branch-dashboard');
+    public function branchDashboard(Request $request){
+        $time = Carbon::now()->timezone('Africa/Nairobi');
+
+        // if evening show good evening
+        if ($time->hour >= 18) {
+            $greeting = 'Good Evening';
+        } elseif ($time->hour >= 12) {
+            $greeting = 'Good Afternoon';
+        } else {
+            $greeting = 'Good Morning';
+        }
+        $branch_id = $request->bid;
+        $branches =  Branch::all();
+
+        if($branch_id){
+            try {
+                $branch = Branch::find($branch_id);
+            } catch (\Throwable $th) {
+                $branch = $branches->first();
+            }
+            
+        }
+        else{
+           
+            $branch = $branches->first();
+        }
+
+        //Total orders made on the branch
+        $total_orders = Order::where('branch_id', $branch->id)->count();
+        $total_surveys_sent = Feedback::where('branch_id', $branch->id)->count();
+        $total_surveys_received = Feedback::where('branch_id', $branch->id)->where('token','')->count();
+
+        $feedbacks = Feedback::where('branch_id', $branch->id)->get();
+        
+        $total_average_rating =  DB::table('feedback')->where('branch_id',$branch->id)
+        ->select(DB::raw('ROUND((AVG(rating) + AVG(overall_rating)) / 2, 2) as average'))
+        ->first()->average;
+
+        $avg_rating_pm = [];
+        $averagesByMonth = DB::table('feedback')
+        ->where('branch_id', $branch->id)
+        ->whereYear('created_at', $time->year)
+        ->select(
+            DB::raw('MONTH(created_at) as month'),
+            DB::raw('ROUND((AVG(rating) + AVG(overall_rating)) / 2, 2) as average')
+        )
+        ->groupBy('month')
+        ->get();
+
+        for ($i = 1; $i < 13; $i++) {
+            $avg_rating_pm[$i] = 0;
+        }
+        foreach ($averagesByMonth as $item) {
+            $month = (int)$item->month; 
+            $average = (float)$item->average;
+            $avg_rating_pm[$month] = $average;
+        }
+        $avg_rating_pm = array_values($avg_rating_pm);
+        return view('branch-dashboard', compact(
+            'branches',
+            'branch',
+            'total_orders',
+            'total_surveys_sent',
+            'total_surveys_received',
+            'total_average_rating',
+            'greeting',
+            'avg_rating_pm'
+
+        ));
     }
+  
+    
 }
