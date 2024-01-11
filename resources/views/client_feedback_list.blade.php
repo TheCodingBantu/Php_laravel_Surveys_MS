@@ -65,7 +65,7 @@
                                 @endif >  {{ucfirst($response->rating_comments)}}</td>
                                 <td>{{$response->overall_rating}}</td>
                                 
-                                <td @if ($response->rating_sentiment == 'positive')
+                                <td @if ($response->overall_sentiment == 'positive')
                                     style='color:red' @else style='color:green'
                                     @endif >  {{ucfirst($response->overall_comments)}}</td>
                                 <td class="text-end">
