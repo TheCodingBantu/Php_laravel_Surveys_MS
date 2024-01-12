@@ -29,11 +29,10 @@ class DashboardController extends Controller
             $greeting = 'Good Morning';
         }
         // count all customers
-        $customers = Customer::where('user_id', Auth::User()->id)->count();
+        $customers = Customer::all()->count();
         // get numbe rof feedbacks per month in the current year
         $feedbackPerMonth = Feedback::selectRaw('MONTH(created_at) as month, count(*) as count')
             ->whereYear('created_at', $time->year)
-            ->where('user_id', Auth::User()->id)
             ->where('token', '')
             ->groupBy('month')
             ->get();
@@ -52,22 +51,22 @@ class DashboardController extends Controller
         }
 
         // count total sent feedbacks
-        $responses = Feedback::where('user_id', Auth::User()->id)->where('token', '')->count();
-        $responses_today = Feedback::where('user_id', Auth::User()->id)->where('token', '')->whereDate('created_at', Carbon::today())->count();
-        $sent = Visit::where('user_id', Auth::User()->id)->count();
-        $sent_today = Visit::where('user_id', Auth::User()->id)->whereDate('created_at', Carbon::today())->count();
-        $branches = Branch::where('user_id', Auth::User()->id)->count();
+        $responses = Feedback::all()->where('token', '')->count();
+        $responses_today = Feedback::where('token', '')->whereDate('created_at', Carbon::today())->count();
+        $sent = Visit::all()->count();
+        $sent_today = Visit::whereDate('created_at', Carbon::today())->count();
+        $branches = Branch::all()->count();
 
         $total_average_rating = 0;
         $current_average_rating = 0;
 
-        foreach (Feedback::where('user_id', Auth::User()->id)->where('token', '')->whereDate('created_at', Carbon::today())->get() as $response) {
+        foreach (Feedback::where('token', '')->whereDate('created_at', Carbon::today())->get() as $response) {
             # code...
             if ($response->rating) {
                 $current_average_rating += $response->rating;
             }
         }
-        foreach (Feedback::where('user_id', Auth::User()->id)->where('token', '')->get() as $response) {
+        foreach (Feedback::where('token', '')->get() as $response) {
             # code...
             if ($response->rating) {
                 $total_average_rating += $response->rating;
@@ -84,7 +83,7 @@ class DashboardController extends Controller
         $detractors=0;
         $passive=0;
   
-        foreach (Feedback::where('user_id', Auth::User()->id)->where('token', '')->get() as $response) {
+        foreach (Feedback::where('token', '')->get() as $response) {
             # code...
             if ($response->rating >= 9) {
                 $promoters+=1;
@@ -108,7 +107,6 @@ class DashboardController extends Controller
         }
         // response by location
             $feedbackLocation= Feedback::groupBy('branch_id')
-            ->where('user_id',Auth::User()->id)
             ->where('token','')
             ->selectRaw('branch_id, count(*) as count')
             ->orderBy('count', 'desc')
@@ -127,7 +125,6 @@ class DashboardController extends Controller
         //    by gender
 
         $gender= Customer::groupBy('gender')
-        ->where('user_id',Auth::User()->id)
         ->selectRaw('gender, count(*) as count')
         ->orderBy('count', 'desc')
         ->get();
@@ -152,7 +149,7 @@ class DashboardController extends Controller
         '41-60' => 0,
         '61-100' => 0,
       );
-       $cust=Customer::where('user_id',Auth::User()->id)->get();
+       $cust=Customer::all();
 
        foreach($cust as $customer){
         $current_age=Carbon::parse($customer->dob)->age;
