@@ -325,9 +325,8 @@ class DashboardController extends Controller
             DB::raw('SUM(CASE WHEN rating_sentiment = "negative" THEN 1 ELSE 0 END) + SUM(CASE WHEN overall_sentiment = "negative" THEN 1 ELSE 0 END) as count')
         )->get();
 
-        array_push($sentiment_pie,($all_negative_sentiments[0]->count));
         array_push($sentiment_pie,($all_positive_sentiments[0]->count));
-
+        array_push($sentiment_pie,($all_negative_sentiments[0]->count));
 
         $feedback_pie = [];
 
