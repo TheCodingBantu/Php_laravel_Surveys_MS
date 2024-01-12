@@ -288,7 +288,7 @@
     }
     
     branchRatingBarChart(@json($avg_rating_pm))
-    SentimentLineChart(@json($negative_sentiments), @json($positive_sentiments))
+    SentimentLineChart(@json($positive_sentiments),@json($negative_sentiments))
     responsePie(@json($sentiment_pie))
     feedbackPie(@json($feedback_pie))
 </script>
