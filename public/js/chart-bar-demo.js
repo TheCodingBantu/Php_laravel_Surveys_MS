@@ -31,14 +31,15 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 // Bar Chart Example
 function showBarChart(input){
 var ctx = document.getElementById("myBarChart");
+var barColors = ["#04B46C", "#DC3C44", "#F7D487"];
 var myBarChart = new Chart(ctx, {
     type: "bar",
     data: {
         labels: ["Promoters", "Detractors", "Passive"],
         datasets: [{
             label: "Client Response",
-            backgroundColor: "rgba(0, 172, 105)",
-            hoverBackgroundColor: "rgba(0, 172, 105)",
+            backgroundColor: barColors,
+            hoverBackgroundColor: barColors,
             borderColor: "#4e73df",
             data: input,
             maxBarThickness: 25
