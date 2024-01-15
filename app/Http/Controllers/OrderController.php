@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Branch;
 use App\Models\Cart;
+use App\Models\Customer;
 use App\Models\Feedback;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -64,5 +66,18 @@ class OrderController extends Controller
         $order = Order::where('order_number', '=', $request->input('order_number'))->first();
         $dates = json_decode($order->tracking_dates);
         return view('clientui.tracking',compact('order','steps','step_numbers','dates'));
+    }
+    public function getLP(){
+        try {
+            $lp = Customer::where('user_id',Auth::user()->id)->first()->lp;
+            return response()->json(['success' => $lp]);
+
+        } catch (\Throwable $th) {
+            
+            return response()->json(['error' => $th]);
+
+        }
+        
+
     }
 }

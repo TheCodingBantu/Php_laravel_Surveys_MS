@@ -41,6 +41,12 @@
                                 </form>
                             </div>
                             <div class="header-action-right">
+                                @if(Auth::user())
+                                <h6 class="border p-2">LP Balance : <span id="lp-bal">0</span></h6>
+                                @else 
+                                <a href="{{ route('login') }}">Sign In</a>
+                                @endif
+
                                 <div class="header-action-2">
 
                                     <div class="header-action-icon-2">
@@ -150,12 +156,31 @@
 <script>
     // document on ready
     $(document).ready(function() {
+     
         // filter search
     //    get  price_to
-        var price_to = document.getElementById('slider-range-value2').innerHTML;
-        console.log(price_to);
+        // var price_to = document.getElementById('slider-range-value2').innerHTML;
+        // console.log(price_to);
+        var lp = document.getElementById('lp-bal').textContent;
+   
+        $.ajax({
+            url: '/get/lp',
+            type: 'GET',
+            dataType: 'json',
+            success: function(response){
+                console.log(response);
+               
+                if(response.success){
+                    $('#lp-bal').text(response.success);
+                }
+                
+            
+
+            }
+        });
 
     });
+
 
 function filterSearch() {
         var keywords = document.getElementById('search-keywords').value;

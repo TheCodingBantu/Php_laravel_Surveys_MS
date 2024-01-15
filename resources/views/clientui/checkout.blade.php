@@ -78,9 +78,16 @@
                                 <label for="">Phone Number</label>
                                 <input type="text" name="phone" required="" readonly placeholder="{{$customer->phone}}">
                             </div>
-                            <div class="form-group" >
+                            
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
                                 <label for="">Payment Method</label>
-                                <input type="text" name="" required="" readonly placeholder="Cash" readonly>
+                                <select name="payment" class="select-cust" >
+                                   <option>Cash</option>
+                                   <option>Cheque</option>
+                                   <option>Card</option>
+                                </select>
                             </div>
                         </div>
                         <div class="row">
@@ -93,6 +100,7 @@
                                 </select>
                             </div>
                         </div>
+                  
             
                         <div class="payment ml-30">
                             <h4 class="mb-30">Redeem Loyalty Points</h4>
@@ -185,6 +193,7 @@
         let sum = 0;
         Array.from(subtotals).forEach(element => {
             sum = sum + parseInt(element.innerText)
+            console.log(sum);
         });
         total.innerText = sum - parseInt(discount)
     }

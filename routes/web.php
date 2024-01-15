@@ -20,6 +20,8 @@ Route::get('customer/feedback', [FeedbackController::class, 'form'])->name('feed
 Route::post('customer/feedback', [FeedbackController::class, 'save'])->name('feedback-post');
 Route::post('/search', [ProductController::class, 'search'])->name('search');
 Route::post('/filter', [ProductController::class, 'filter'])->name('filter');
+Route::get('/get/lp', [OrderController::class, 'getLp'])->name('getLp');
+
     //client UI
 Route::get('/product-details/{id}', [ProductController::class, 'productDetails'])->name('product-details');
 
@@ -95,7 +97,6 @@ Route::middleware(['auth','can:view-page'])->group(function () {
     Route::post('approve-lp/', [CustomerController::class, 'approvelp'])->name('approvelp');
 
     Route::get('/order/all', [OrderController::class, 'adminOrdersList'])->name('adminorders');
-
 
 
 });

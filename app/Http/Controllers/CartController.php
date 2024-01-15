@@ -128,7 +128,7 @@ class CartController extends Controller
         $order = new Order();
         $order->order_number = 'ORD_'.rand(1000, 9999);
         $order->user_id = auth()->user()->id;
-        $order->payment_method = 'Cash';
+        $order->payment_method = $request->input('payment');
         $order->delivery_address = auth()->user()->id;
         $order->item_names =json_encode($item_names);
         $order->item_prices =json_encode($item_prices);
