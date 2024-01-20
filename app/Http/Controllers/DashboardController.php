@@ -343,7 +343,19 @@ class DashboardController extends Controller
         array_push($feedback_pie,$genderCounts['Female'] ?? 0);
         array_push($feedback_pie,$genderCounts['Other'] ?? 0);
 
+        // payment method
+        $payment_methods = Order::select('payment_method', DB::raw('count(*) as count'))->where('branch_id', $branch->id)
+        ->groupBy('payment_method')
+        ->get();
+        $methods_arr=[];
+        $values_arr =[];
 
+       
+       foreach ($payment_methods as $key => $value) {
+       array_push($methods_arr,$value->payment_method);
+       array_push($values_arr,$value->count);
+
+       }
         return view('branch-dashboard', compact(
             'branches',
             'branch',
@@ -356,7 +368,10 @@ class DashboardController extends Controller
             'positive_sentiments',
             'negative_sentiments',
             'sentiment_pie',
-            'feedback_pie'
+            'feedback_pie',
+            'methods_arr',
+            'values_arr'
+
 
         ));
     }

@@ -173,8 +173,6 @@
                 if(response.success){
                     $('#lp-bal').text(response.success);
                 }
-                
-            
 
             }
         });

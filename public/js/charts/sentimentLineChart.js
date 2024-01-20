@@ -131,3 +131,41 @@ if (chDonut1) {
 
 
 }
+
+
+function paymentPie(method,values){
+  /* chart.js chart examples */
+  
+  // chart colors
+  var colors = ['#003f5c','#58508d','#bc5090','#ff6361','#ffa600'];
+  
+  
+  /* 3 donut charts */
+  var donutOptions = {
+    cutoutPercentage: 0, 
+    legend: {position:'right', padding:5, labels: {pointStyle:'circle', usePointStyle:true}}
+  };
+  
+  // donut 1
+  var chDonutData1 = {
+      labels: method,
+      datasets: [
+        {
+          backgroundColor: colors.slice(0,4),
+          borderWidth: 0,
+          data:values
+        }
+      ]
+  };
+  
+  var chDonut1 = document.getElementById("paymentPie");
+  if (chDonut1) {
+    new Chart(chDonut1, {
+        type: 'pie',
+        data: chDonutData1,
+        options: donutOptions
+    });
+  }
+  
+  
+  }

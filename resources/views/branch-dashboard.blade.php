@@ -268,9 +268,41 @@
                     </div>
                 </div>
             </div>
+
+            
         </div>
-
-
+        <div class="row">
+            <div class="col-lg-4">
+                <!-- Pie chart example-->
+                <div class="card ">
+                    <div class="card-header">Payment Methods</div>
+                    <div class="card-body">
+                        
+                        <div class="chart-pie mb-4">
+                            <div class="chartjs-size-monitor">
+                                <div class="chartjs-size-monitor-expand">
+                                    <div class=""></div>
+                                </div>
+                                <div class="chartjs-size-monitor-shrink">
+                                    <div class=""></div>
+                                </div>
+                            </div>
+                            <div class="chartjs-size-monitor">
+                                <div class="chartjs-size-monitor-expand">
+                                    <div class=""></div>
+                                </div>
+                                <div class="chartjs-size-monitor-shrink">
+                                    <div class=""></div>
+                                </div>
+                            </div><canvas id="paymentPie" width="414" height="264"
+                                style="display: block; height: 300px; width: 377px;"
+                                class="chartjs-render-monitor"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
     </div>
 </main>
 
@@ -291,4 +323,5 @@
     SentimentLineChart(@json($positive_sentiments),@json($negative_sentiments))
     responsePie(@json($sentiment_pie))
     feedbackPie(@json($feedback_pie))
+    paymentPie(@json($methods_arr),@json($values_arr))
 </script>

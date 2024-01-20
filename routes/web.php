@@ -15,6 +15,7 @@ use App\Http\Controllers\VisitController;
 use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {return view('landing');});
 Route::get('/', [ProductController::class, 'home'])->name('home');
+Route::get('/tracker', function (){return view('mail.order-status');});
 
 Route::get('customer/feedback', [FeedbackController::class, 'form'])->name('feedback-page');
 Route::post('customer/feedback', [FeedbackController::class, 'save'])->name('feedback-post');

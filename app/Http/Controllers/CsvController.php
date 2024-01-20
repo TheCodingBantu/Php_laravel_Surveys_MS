@@ -151,20 +151,18 @@ class CsvController extends Controller
     }
 
     public function exportCSV(){
-        $feedback=Feedback::where('user_id',Auth::User()->id)->get();
+        $feedback=Feedback::all();
         $csv = Writer::createFromFileObject(new \SplTempFileObject());
-        $csv->insertOne(['Customer Name', 'Customer Email','Feedback Status','Branch Name','Rating', 'Recommendation', 'Comments','Date Created']);
+        $csv->insertOne(['Customer Name', 'Customer Email','Feedback Status','Branch Name','Branch Rating', 'Comments','Overall Rating','comments','Date Created']);
 
         foreach ($feedback as $feed) {
             // $csv->insertOne($feed->toArray());
             $csv->insertOne([$feed->customer->name,$feed->customer->email,
-            $feed->status,$feed->branch->branch_name,$feed->rating,$feed->recommendation,
-            $feed->comments, $feed->created_at]);
+            $feed->status,$feed->branch->branch_name,$feed->rating,$feed->rating_comments,
+            $feed->overall_rating, $feed->overall_comments, $feed->created_at]);
 
         }
-        $csv->output('feedback.csv');
-
-        // $csv->insertOne(['id','status','rating', 'recommendation', 'comments']);
+        $csv->output('Survey_feedback_'.Carbon::now().'_.csv');
 
     }
 
