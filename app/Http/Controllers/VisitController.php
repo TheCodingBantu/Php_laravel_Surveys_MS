@@ -47,7 +47,8 @@ class VisitController extends Controller
             $retrieved_order->tracking_dates = json_encode($order_update_dates);
             $retrieved_order->save();
             try {
-                MailHelper::sendOrderStatusMail($retrieved_user->email,$retrieved_user->name);
+                
+                MailHelper::sendOrderStatusMail($retrieved_user,$retrieved_order);
                 
             } catch (\Throwable $th) {
                 //throw $th;

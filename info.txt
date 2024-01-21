@@ -1,2 +1,2 @@
 
-Send notifications on : Order Update, Feedback Received
+Send notifications on : Order Update, Feedback Receivedpa   

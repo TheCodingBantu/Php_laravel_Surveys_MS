@@ -20,10 +20,22 @@ class OrderStatusMail extends Mailable implements ShouldQueue
      * @return void
      */
     public $name;
+    public $status;
+    public $order_number;
+    public $order_date;
+    public $totals;
+    public $track_link;
+    public $desc;
 
-    public function __construct($name)
+    public function __construct($name,$status,$desc,$order_number,$order_date,$totals,$track_link)
     {
         $this->name =$name;
+        $this->desc = $desc;
+        $this->status = $status;
+        $this->order_number = $order_number;
+        $this->order_date = $order_date;
+        $this->totals = $totals;
+        $this->track_link = $track_link;
     }
 
     /**
