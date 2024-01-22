@@ -20,7 +20,7 @@ class CustomerController extends Controller
     public function index()
     {
 
-        $customers = Customer::where('user_id',Auth::User()->id)->paginate(100);
+        $customers = Customer::all()->paginate(100);
         return view('customers', ['customers' => $customers]);
     }
 
