@@ -112,6 +112,7 @@ class CartController extends Controller
         $item_prices=[];
         $item_quantities=[];
         $item_totals=[];
+        $product_ids=[];
 
 
         foreach ($cart_item as $item) {
@@ -119,6 +120,7 @@ class CartController extends Controller
          array_push($item_prices, $item->getProductRelation->price);
          array_push($item_quantities, $item->quantity);
          array_push($item_totals, $item->quantity * $item->getProductRelation->price);
+         array_push($product_ids,$item->getProductRelation->id );
         }
         
         // calculate total
@@ -131,6 +133,7 @@ class CartController extends Controller
         $order->payment_method = $request->input('payment');
         $order->delivery_address = auth()->user()->id;
         $order->item_names =json_encode($item_names);
+        $order->product_ids =json_encode($product_ids);
         $order->item_prices =json_encode($item_prices);
         $order->item_quantities =json_encode($item_quantities);
         $order->item_totals =json_encode($item_totals);

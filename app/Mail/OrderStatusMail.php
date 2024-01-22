@@ -43,6 +43,7 @@ class OrderStatusMail extends Mailable implements ShouldQueue
      *
      * @return \Illuminate\Mail\Mailables\Envelope
      */
+
     public function envelope()
     {
 

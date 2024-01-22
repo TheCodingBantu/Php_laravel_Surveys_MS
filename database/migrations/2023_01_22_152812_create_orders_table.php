@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('order_number');
+            $table->json('product_ids');
             $table->string('user_id');
             $table->string('branch_id');
             $table->string('payment_method');
