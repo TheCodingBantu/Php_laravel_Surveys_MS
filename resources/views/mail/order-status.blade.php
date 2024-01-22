@@ -149,7 +149,7 @@
 
         <div style="background:#fff;background-color:#fff;Margin:0px auto;max-width:600px;">
 
-            <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#fff;background-color:#fff;width:100%;">
+            <table align="left" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#fff;background-color:#fff;width:100%;">
                 <tbody>
                     <tr>
                         <td style="border:#dddddd solid 1px;border-top:0px;direction:ltr;font-size:0px;padding:20px 0;text-align:center;vertical-align:top;">
@@ -191,8 +191,7 @@
                                             <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:24px;font-weight:bold;line-height:22px;text-align:center;color:#525252;">
                                                Order Status Update
                                             </div>
-                                            <p>{{$order_date}}</p>
-
+                                           
                                         </td>
                                     </tr>
 
@@ -219,7 +218,7 @@
                                                 <tr>
                                                  
                                                     <td align="center" bgcolor="#2F67F6" role="presentation" style="border:none;border-radius:3px;color:#ffffff;cursor:auto;padding:15px 25px;" valign="middle">
-                                                        <p style="background:#2ff682;color:#ffffff;font-family:'Helvetica Neue',Arial,sans-serif;font-size:15px;font-weight:normal;line-height:120%;Margin:0;text-decoration:none;text-transform:none;">
+                                                        <p style="color:#ffffff;font-family:'Helvetica Neue',Arial,sans-serif;font-size:15px;font-weight:normal;line-height:120%;Margin:0;text-decoration:none;text-transform:none;">
                                                             <a href="{{$track_link}}" style="color:#fff; text-decoration:none">
          Track Your Order </a>
                                                         </p>
