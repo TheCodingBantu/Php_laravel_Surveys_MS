@@ -28,8 +28,8 @@ return new class extends Migration
             $table->json('item_totals');
             $table->string('total');
             $table->integer('status');
-            $table->json('tracking_dates')->nullable;
-
+            $table->json('tracking_dates')->nullable();
+            $table->boolean('is_payment_complete')->default(false);
             $table->timestamps();
         });
     }

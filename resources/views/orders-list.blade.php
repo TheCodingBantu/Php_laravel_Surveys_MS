@@ -59,9 +59,9 @@
                                 <td>
                                     @foreach ($steps as $key => $value)
                                     @if ($key==$order->status)
-                                    <span class=" badge @if ($order->status == count($steps)-1) bg-green-soft text-green @else bg-yellow-soft text-yellow @endif">{{$value}}</span>
+                                    <span class=" badge @if ($order->status == count($steps)-1) bg-green-soft text-green @else bg-yellow-soft text-yellow @endif"> @if($order->is_payment_complete == false) Payment Pending @else{{$value}}@endif</span>
                                         
-                                    @endif
+                                    @endif 
                                     @endforeach
                                 </td>
 
@@ -89,7 +89,11 @@
                                 </td>
                                 <td><button onclick="updateStatus({{$order->id}})" @if ($order->status == count($steps)-1) disabled
                                     
-                                @endif class="btn btn-success btn-sm">Update</button></td>
+                                @endif 
+                                @if($order->is_payment_complete == false)
+                                @disabled(true)
+                                @endif
+                                class="btn btn-success btn-sm">Update</button></td>
                             </tr>
                             @endforeach
                             @endif

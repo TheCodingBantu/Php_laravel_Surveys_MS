@@ -12,4 +12,5 @@ class Cart extends Model
     public function getProductRelation(){
         return $this->hasOne('App\Models\Product','id','product_id');
     }
+
 }

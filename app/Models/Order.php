@@ -17,4 +17,8 @@ class Order extends Model
     public function  branch(){
         return $this->belongsTo(Branch::class, 'branch_id');
     }
+
+    public function  cart(){
+        return $this->belongsTo(Cart::class, 'cart_id');
+    }
 }
