@@ -90,8 +90,8 @@
                                 <td><button onclick="updateStatus({{$order->id}})" @if ($order->status == count($steps)-1) disabled
                                     
                                 @endif 
-                                @if($order->is_payment_complete == false)
-                                @disabled(true)
+                                @if(!$order->is_payment_complete)
+                                disabled
                                 @endif
                                 class="btn btn-success btn-sm">Update</button></td>
                             </tr>

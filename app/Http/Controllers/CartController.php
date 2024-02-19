@@ -42,12 +42,13 @@ class CartController extends Controller
 
         try {
             //code...
-        // if user not logged in redirect to login page
-        $cart_man=CartManager::where('user_id','=',Auth::user()->id)->first();
+            // if user not logged in redirect to login page
+            $cart_man=CartManager::where('user_id','=',Auth::user()->id)->first();
 
-            if($cart_man){
+            if($cart_man && $cart_man->order_id !== null){
                 return response()->json(['error' => 'Please complete pending orders']);
             }
+
             $cart = new Cart();
             
             // check if user is logged in
