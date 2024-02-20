@@ -43,8 +43,6 @@ class ProductController extends Controller
 
     public function home(Request $request)
     {
-        //
-    //   base64_encode(file_get_contents('https://media.cnn.com/api/v1/images/stellar/prod/231030133145-01-eye-drops-stock.jpg'));
 
         $products = Product::all();
 

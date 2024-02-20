@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\MailHelper;
 use App\Models\Branch;
 use App\Models\Cart;
 use App\Models\CartManager;
@@ -168,12 +169,16 @@ class CartController extends Controller
                 $check_order->save();
                 Cart::where('user_id', '=', auth()->user()->id)->delete();
                 CartManager::where('user_id', '=', auth()->user()->id)->delete();
+                $description = 'Your Full Payment of Kshs'. $request->order_amount.' has been received '. "Your order will be processed shortly";
+                MailHelper::sendPaymentConfirmation($check_order->user->email, $check_order->user->name,$description);
                 return redirect()->route('orders')->with('success', 'Full payment received');
 
             }
             else{
-                $cart_manager->prepaid_amount=$request->input('order_amount');
+                $cart_manager->prepaid_amount=$cart_manager->prepaid_amount + $request->input('order_amount');
                 $cart_manager->save();
+                $description = 'Your Partial Payment of Kshs'. $request->order_amount.' has been received '. "Your balance is Kshs " . $request->amt_balance;
+                MailHelper::sendPaymentConfirmation($check_order->user->email, $check_order->user->name,$description);
                 return redirect()->route('orders')->with('success', 'Partial payment received');
 
             }
@@ -207,15 +212,25 @@ class CartController extends Controller
 
                 Cart::where('user_id', '=', auth()->user()->id)->delete();
                 CartManager::where('user_id', '=', auth()->user()->id)->delete();
+
+                $description = 'Your Full Payment of Kshs'. $request->order_amount.' has been received '. "Your order will be processed shortly";
+                MailHelper::sendPaymentConfirmation($order->user->email, $order->user->name,$description);
+
                 return redirect()->route('orders')->with('success', 'Full payment received');
 
             }
             else{
                 
-                $cart_manager->prepaid_amount=$request->input('order_amount');
+                $cart_manager->prepaid_amount=$cart_manager->prepaid_amount + $request->input('order_amount');
+
                 $cart_manager->save();
               
+
+                $description = 'Your Partial Payment of Kshs'. $request->order_amount.' has been received. Your balance is Kshs '. $request->amt_balance;
+                MailHelper::sendPaymentConfirmation($order->user->email, $order->user->name,$description);
+
                 return redirect()->route('orders')->with('success', 'Partial payment received');
+
             }
 
         }

@@ -3,6 +3,7 @@ namespace App\Helpers;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\FeedbackMail;
 use App\Mail\OrderStatusMail;
+use App\Mail\PaymentConfirmation;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
@@ -44,4 +45,11 @@ class MailHelper {
         }
 
     }
+
+    public static function sendPaymentConfirmation($mail,$name, $description)
+    {
+        Mail::to($mail)->send(new PaymentConfirmation($name, $description));
+               
+    }
+    
 }

@@ -60,6 +60,10 @@ class FeedbackController extends Controller
             $update->overall_comments = $request->overall_comments;
             $update->token = '';
             $update->status = 'received';
+            $update->branch_comments = $request->branch_comments;
+            $update->expectations = $request->expectations;
+
+
             $update->save();
 
             $sentiment_comments=[$request->rating_comments,$request->overall_comments];

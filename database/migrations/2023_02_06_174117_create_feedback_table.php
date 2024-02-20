@@ -29,6 +29,9 @@ return new class extends Migration
             $table->string('overall_sentiment')->nullable();
             $table->string('overall_score')->nullable();
             $table->integer('approved_lp')->nullable();
+            $table->longText('expectations')->nullable();
+            $table->longText('branch_comments')->nullable();
+
 
             $table->timestamps();
         });

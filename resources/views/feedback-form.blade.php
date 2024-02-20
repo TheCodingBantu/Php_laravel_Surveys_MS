@@ -109,6 +109,18 @@
 
                                 <textarea name="overall_comments" id="maesage"></textarea>
 
+                                <h2 class="ratingHead">How were the staff at the branch</h2>
+
+                                <textarea name="branch_comments" id="comm"></textarea>
+                                <br>
+
+                                <h2 class="ratingHead">Does the product meet your expectations</h2>
+
+                                <textarea name="expectations" id="comm"></textarea>
+                                
+
+
+
                                 <button class="btn btn-success" id="sub" type="submit">Send Feedback</button>
                             </form>
                         </div>

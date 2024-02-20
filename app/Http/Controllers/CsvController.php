@@ -153,13 +153,13 @@ class CsvController extends Controller
     public function exportCSV(){
         $feedback=Feedback::all();
         $csv = Writer::createFromFileObject(new \SplTempFileObject());
-        $csv->insertOne(['Customer Name', 'Customer Email','Feedback Status','Branch Name','Branch Rating', 'Comments','Overall Rating','comments','Date Created']);
+        $csv->insertOne(['Customer Name', 'Customer Email','Feedback Status','Branch Name','Branch Rating', 'Comments','Overall Rating','comments','Staff Service','Expectations Met','Date Created']);
 
         foreach ($feedback as $feed) {
             // $csv->insertOne($feed->toArray());
             $csv->insertOne([$feed->customer->name,$feed->customer->email,
             $feed->status,$feed->branch->branch_name,$feed->rating,$feed->rating_comments,
-            $feed->overall_rating, $feed->overall_comments, $feed->created_at]);
+            $feed->overall_rating, $feed->overall_comments, $feed->branch_comments, $feed->expectations, $feed->created_at]);
 
         }
         $csv->output('Survey_feedback_'.Carbon::now().'_.csv');
