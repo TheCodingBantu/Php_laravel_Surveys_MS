@@ -1,3 +1,0 @@
-This is sample text
-This is another line
-testing git
