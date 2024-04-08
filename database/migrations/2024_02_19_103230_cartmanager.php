@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('user_id');
             $table->string('order_id')->nullable();
             $table->integer('prepaid_amount')->default(0);
+            $table->integer('otp')->nullable();
             $table->timestamps();
         });
     }

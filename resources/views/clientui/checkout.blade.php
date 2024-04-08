@@ -225,6 +225,11 @@
                                     <input type="hidden" name="amt_balance" id="amt_balance">
                                 </div>
 
+                                <br>
+                                <input type="text" id="otp" placeholder='Payment OTP confirmation'>
+                                <br>
+    
+
                                 @csrf
                                 <a  onclick="beforeSubmit()" class="btn btn-sm btn-fill-out btn-block mt-30">Update Order <i class="fi-rs-sign-out ml-15"></i></a>
                                 <button hidden id="submit" type="submit" ></button>
@@ -238,6 +243,7 @@
         </div>
     </div>
     </div>
+ 
 </main>
 
 @yield('footer')
@@ -246,6 +252,8 @@
         
     $(document).ready(function(){
 
+        
+$('#otp').hide()
 calculateBalances()
 })
 
@@ -341,7 +349,8 @@ function beforeSubmit(){
             ref_number.classList.remove("redBorder")
             ref_info.textContent=''
             if(amount_exists()){
-            $('#submit').click() 
+                sendEmailOTP()
+             
 
         }
 
@@ -388,7 +397,7 @@ function beforeSubmit(){
         console.log(card_is_valid)
             if(card_is_valid){
                 if(amount_exists()){
-                    $('#submit').click() 
+                    sendEmailOTP()
 
                 }
             }
@@ -404,7 +413,8 @@ function beforeSubmit(){
 
     if (payment_method == 'Cash'){
         if(amount_exists()){
-           $('#submit').click() 
+        sendEmailOTP()
+           
 
         }
     }
@@ -453,4 +463,29 @@ function calculateBalances(){
     order_bal.text(total.text() - prepaid.text() - amount.val())
 
 }
+
+function sendEmailOTP(){
+     let otpinput = document.getElementById('otp')
+      $('#otp').show()
+       
+    
+        $.ajax({
+            type: "GET",
+            url: "/emailOTP"+ {{$cart_manager_id}},
+            success: function (response) {
+                console.log(response.otp)
+               if (response.otp!= otpinput.value){
+
+                otp.classList.add("redBorder")
+                
+            }
+            else{
+                otp.classList.remove("redBorder")
+                $('#submit').click()
+            }
+
+            }
+        });
+}
+
 </script>

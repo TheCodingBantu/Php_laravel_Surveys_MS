@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\FeedbackMail;
 use App\Mail\OrderStatusMail;
 use App\Mail\PaymentConfirmation;
+use App\Mail\EmailOTP;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
@@ -52,4 +53,9 @@ class MailHelper {
                
     }
     
+    public static function sendEmailOTP($mail, $otp)
+    {
+        Mail::to($mail)->send(new EmailOTP( $otp));
+               
+    }
 }

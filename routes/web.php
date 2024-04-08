@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/addtocart', [CartController::class, 'store'])->name('addtocart');
 
     Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+    Route::get('/emailOTP{id}', [CartController::class, 'emailOTP'])->name('emailOTP');
     Route::post('/createOrder', [CartController::class, 'createOrder'])->name('createOrder');
 
     Route::get('/client/profile', [ClientProfileController::class, 'edit'])->name('clientprofile.edit');

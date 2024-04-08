@@ -34,11 +34,11 @@ class SentimentAnalysis{
         ));
         
         
+        curl_close($curl);
         
         $response = json_decode(curl_exec($curl));
         $sentiment= $response->sentiment;
         $score= $response->score;
-        curl_close($curl);
         return [$sentiment,$score];
     }
 }

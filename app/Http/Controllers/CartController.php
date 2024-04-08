@@ -8,6 +8,8 @@ use App\Models\Cart;
 use App\Models\CartManager;
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\User;
+
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +26,23 @@ class CartController extends Controller
         $cart = Cart::where('user_id', '=', auth()->user()->id)->get();
         return view('clientui.cart', compact('cart'));
     }
+    public function emailOTP($id){
+        $otp = CartManager::find($id); 
+        $email = User::find($otp->user_id)->email;
+        
+        
 
+        if (!$otp->otp) {
+           $otp->otp=rand(10000, 99999);
+           $otp->save();
+            
+           MailHelper::sendEmailOTP($email, $otp->otp);
+           return response()->json(['otp' => $otp->otp]);
+        }
+        MailHelper::sendEmailOTP($email, $otp->otp);
+        return response()->json(['otp' => $otp->otp]);
+        
+    }
 
     public function clearCart()
     {
@@ -121,12 +139,13 @@ class CartController extends Controller
     {
         //
         $cart = Cart::where('user_id', '=', auth()->user()->id)->get();
+        $cart_manager_id=$cart->first()->cart_manager;
         $customer = Customer::where('user_id', '=', auth()->user()->id)->first();
         $lp = $customer->lp;
         $prepaid_amount = CartManager::where('user_id', '=', auth()->user()->id)->first()->prepaid_amount;
         $branches =  Branch::all();
         
-        return view('clientui.checkout', compact('cart','lp','branches','customer','prepaid_amount'));
+        return view('clientui.checkout', compact('cart','lp','branches','customer','prepaid_amount','cart_manager_id'));
       
     }
 
