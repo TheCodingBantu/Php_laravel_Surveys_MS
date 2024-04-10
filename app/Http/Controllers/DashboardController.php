@@ -254,6 +254,8 @@ class DashboardController extends Controller
 
         $positive_sentiments =[];
         $negative_sentiments =[];
+        $neutral_sentiments =[];
+
 
         $positive_sentiments_by_month = DB::table('feedback')
         ->where('branch_id', $branch->id)
@@ -284,6 +286,23 @@ class DashboardController extends Controller
         )
         ->groupBy('month')
         ->get();
+
+
+
+        $neutral_sentiments_by_month = DB::table('feedback')
+        ->where('branch_id', $branch->id)
+        ->whereYear('created_at', $time->year)
+        ->where(function ($query) {
+            $query->where('rating_sentiment', 'neutral')
+                ->orWhere('overall_sentiment', 'neutral');
+        })
+        ->select(
+            DB::raw('MONTH(created_at) as month'),
+            DB::raw('SUM(CASE WHEN rating_sentiment = "neutral" THEN 1 ELSE 0 END) + SUM(CASE WHEN overall_sentiment = "neutral" THEN 1 ELSE 0 END) as count')
+   
+        )
+        ->groupBy('month')
+        ->get();
         
         for ($i = 1; $i < 13; $i++) {
             $positive_sentiments[$i] = 0;
@@ -304,7 +323,20 @@ class DashboardController extends Controller
             $negative_sentiments[$month] = $count;
         }
         $negative_sentiments = array_values($negative_sentiments);
+
+        for ($i = 1; $i < 13; $i++) {
+            $neutral_sentiments[$i] = 0;
+        }
+        foreach ($neutral_sentiments_by_month as $item) {
+            $month = (int)$item->month; 
+            $count = (int)$item->count;
+            $neutral_sentiments[$month] = $count;
+        }
+        $neutral_sentiments = array_values($neutral_sentiments);
+
+
         $sentiment_pie = [];
+
         $all_positive_sentiments = DB::table('feedback')
         ->where('branch_id', $branch->id)
         ->where(function ($query) {
@@ -325,8 +357,21 @@ class DashboardController extends Controller
             DB::raw('SUM(CASE WHEN rating_sentiment = "negative" THEN 1 ELSE 0 END) + SUM(CASE WHEN overall_sentiment = "negative" THEN 1 ELSE 0 END) as count')
         )->get();
 
+
+        $all_neutral_sentiments = DB::table('feedback')
+        ->where('branch_id', $branch->id)
+        ->where(function ($query) {
+            $query->where('rating_sentiment', 'neutral')
+                ->orWhere('overall_sentiment', 'neutral');
+        })
+        ->select(
+            DB::raw('SUM(CASE WHEN rating_sentiment = "neutral" THEN 1 ELSE 0 END) + SUM(CASE WHEN overall_sentiment = "neutral" THEN 1 ELSE 0 END) as count')
+        )->get();
+
         array_push($sentiment_pie,($all_positive_sentiments[0]->count));
         array_push($sentiment_pie,($all_negative_sentiments[0]->count));
+        array_push($sentiment_pie,($all_neutral_sentiments[0]->count));
+
 
         $feedback_pie = [];
 
@@ -367,6 +412,7 @@ class DashboardController extends Controller
             'avg_rating_pm',
             'positive_sentiments',
             'negative_sentiments',
+            'neutral_sentiments',
             'sentiment_pie',
             'feedback_pie',
             'methods_arr',

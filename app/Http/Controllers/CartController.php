@@ -153,6 +153,12 @@ class CartController extends Controller
     public function createOrder(Request $request)
     {
         $lp= request('lp');
+
+        if ($lp>0){
+            $customer = Customer::where('user_id', Auth::user()->id)->first();  
+            $customer->lp = $customer->lp - $lp;
+            $customer->save();
+        }
         //get items in cart
         $cart_item = Cart::where('user_id', '=', auth()->user()->id)->get();
         // loop through cart items
@@ -184,6 +190,8 @@ class CartController extends Controller
         $check_order=Order::find($cart_manager->order_id);
 
         if($check_order){
+            $check_order->branch_id= $request->input('branch');
+            $check_order->save();
             //update the cart manager
             if ($request->amt_balance <=0){
                 $check_order -> is_payment_complete = true;
@@ -257,11 +265,7 @@ class CartController extends Controller
         }
         
 
-        if ($lp>0){
-            $customer = Customer::where('user_id', Auth::user()->id)->first();  
-            $customer->lp = $customer->lp - $lp;
-            $customer->save();
-        }
+    
 
         // redirect to orders page
         return redirect()->route('orders')->with('success', 'Order Placed Successfully');

@@ -334,6 +334,10 @@ function simulatePayment(event){
 
 
 function beforeSubmit(){
+     let prepaid = $('#prepaid').text()
+    let amount = $('#order_amount').val()
+    let total = $('#total').text()
+    let balance = total - prepaid;
     let payment_method = $('#payment_method').val()
     if (payment_method == 'Cheque'){
         let ref_number = document.getElementById('ref_number')
@@ -348,10 +352,14 @@ function beforeSubmit(){
         else{
             ref_number.classList.remove("redBorder")
             ref_info.textContent=''
-            if(amount_exists()){
-                sendEmailOTP()
-             
+        if(amount_exists()){
+                if(amount<=balance){
+                    sendEmailOTP()
+                }
+                else{
+                    toastr.error("Amount is greater than balance...");
 
+                }
         }
 
     }
@@ -394,9 +402,13 @@ function beforeSubmit(){
         }
 
         if(amount_exists()){
-        
-        sendEmailOTP()
+                if(amount<=balance){
+                    sendEmailOTP()
+                }
+                else{
+                    toastr.error("Amount is greater than balance...");
 
+                }
         }
         
     }
@@ -404,8 +416,14 @@ function beforeSubmit(){
     
 
     if (payment_method == 'Cash'){
-        if(amount_exists()){
-        sendEmailOTP()
+       if(amount_exists()){
+                if(amount<=balance){
+                    sendEmailOTP()
+                }
+                else{
+                    toastr.error("Amount is greater than balance...");
+
+                }
         }
         else{
             toastr.error("Please enter amount ...");

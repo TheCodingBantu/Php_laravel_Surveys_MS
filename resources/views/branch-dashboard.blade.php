@@ -320,7 +320,7 @@
     }
     
     branchRatingBarChart(@json($avg_rating_pm))
-    SentimentLineChart(@json($positive_sentiments),@json($negative_sentiments))
+    SentimentLineChart(@json($positive_sentiments),@json($negative_sentiments),@json($neutral_sentiments))
     responsePie(@json($sentiment_pie))
     feedbackPie(@json($feedback_pie))
     paymentPie(@json($methods_arr),@json($values_arr))

@@ -1,4 +1,4 @@
-function SentimentLineChart(positive,negative){
+function SentimentLineChart(positive,negative,neutral){
 
 
 var chLine = document.getElementById("sentimentLineChart");
@@ -22,7 +22,16 @@ var chartData = {
     borderColor: colors[1],
     borderWidth: 3,
     pointBackgroundColor: colors[1]
-  }]
+  },
+  {
+    data: neutral,
+    backgroundColor: 'transparent',
+    borderColor: colors[2],
+    borderWidth: 3,
+    pointBackgroundColor: colors[2]
+  }
+
+]
 };
 
 if (chLine) {
@@ -110,7 +119,7 @@ var donutOptions = {
 
 // donut 1
 var chDonutData1 = {
-    labels: ['Negative', 'Positive'],
+    labels: ['Negative', 'Positive','Neutral'],
     datasets: [
       {
         backgroundColor: colors.slice(0,2),
