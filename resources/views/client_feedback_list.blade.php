@@ -56,17 +56,24 @@
                             </tr>
                         </thead>
                         <tbody>
+                        
                             @foreach ($responses as $response)
                             <tr>
                                 <td>{{$response->id}}</td>
                                 <td>{{$response->rating}}</td>
                                 <td @if ($response->rating_sentiment == 'negative')
-                                style='color:red' @else style='color:green'
+                                style='color:red' 
+                                @elseif($response->rating_sentiment == 'neutral')
+                                 style='color:gray'
+                                  @else style='color:green'
                                 @endif >  {{ucfirst($response->rating_comments)}}</td>
                                 <td>{{$response->overall_rating}}</td>
                                 
                                 <td @if ($response->overall_sentiment == 'negative')
-                                    style='color:red' @else style='color:green'
+                                    style='color:red' 
+                                    @elseif($response->rating_sentiment == 'neutral')
+                                 style='color:gray'
+                                    @else style='color:green'
                                     @endif >  {{ucfirst($response->overall_comments)}}</td>
                                 <td class="text-end">
                                     {{-- <a href="{{route('invoice' ,$order->id)}} " class="btn btn-sm rounded font-sm">Details</a> --}}

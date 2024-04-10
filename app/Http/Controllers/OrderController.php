@@ -24,7 +24,7 @@ class OrderController extends Controller
     {
     //   get all orders with same user id
         $branches = Branch::all();
-        $orders = Order::all();
+        $orders = Order::latest()->get();
         $steps=json_decode(env('ORDER_STEPS'), true);
         return view('orders-list', compact('orders','branches','steps'));
     }

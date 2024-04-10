@@ -30,15 +30,11 @@ class CartController extends Controller
         $otp = CartManager::find($id); 
         $email = User::find($otp->user_id)->email;
         
-        
-
         if (!$otp->otp) {
            $otp->otp=rand(10000, 99999);
            $otp->save();
-            
-           MailHelper::sendEmailOTP($email, $otp->otp);
-           return response()->json(['otp' => $otp->otp]);
         }
+        
         MailHelper::sendEmailOTP($email, $otp->otp);
         return response()->json(['otp' => $otp->otp]);
         

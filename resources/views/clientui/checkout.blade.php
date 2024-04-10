@@ -243,6 +243,7 @@
         </div>
     </div>
     </div>
+    <input type="hidden" value="0" id="is_otp">
  
 </main>
 
@@ -477,27 +478,31 @@ function calculateBalances(){
 
 function sendEmailOTP(){
      let otpinput = document.getElementById('otp')
+     let otp = document.getElementById('is_otp')
+
       $('#otp').show()
        
-    
+     if(otp.value == 0){
         $.ajax({
             type: "GET",
             url: "/emailOTP"+ {{$cart_manager_id}},
             success: function (response) {
-                console.log(response.otp)
-               if (response.otp!= otpinput.value){
-
-                otp.classList.add("redBorder")
-                
-            }
-            else{
-                otp.classList.remove("redBorder")
-                
-                $('#submit').click()
-            }
-
+                otp.value=response.otp
+               
             }
         });
+
+     }
+    if (otp.value != otpinput.value){
+
+        otpinput.classList.add("redBorder")
+        
+    }
+    else{
+        otpinput.classList.remove("redBorder")
+        $('#submit').click()
+    }
+
 }
 
 </script>
