@@ -393,19 +393,11 @@ function beforeSubmit(){
             cvc_info.textContent=''
         }
 
-        let card_is_valid = Math.random() < 0.5
-        console.log(card_is_valid)
-            if(card_is_valid){
-                if(amount_exists()){
-                    sendEmailOTP()
+        if(amount_exists()){
+        
+        sendEmailOTP()
 
-                }
-            }
-            else {
-                toastr["error"]('Card declined. Please try again');
-
-            }
-
+        }
         
     }
     //amount must be there
@@ -414,8 +406,9 @@ function beforeSubmit(){
     if (payment_method == 'Cash'){
         if(amount_exists()){
         sendEmailOTP()
-           
-
+        }
+        else{
+            toastr.error("Please enter amount ...");
         }
     }
 
@@ -481,6 +474,7 @@ function sendEmailOTP(){
             }
             else{
                 otp.classList.remove("redBorder")
+                
                 $('#submit').click()
             }
 

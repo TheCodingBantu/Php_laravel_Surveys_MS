@@ -177,6 +177,8 @@ class CartController extends Controller
         $now [] = Carbon::now()->format('Y-m-d H:i:s');
 
         $cart_manager = CartManager::where('user_id','=',Auth::user()->id)->first();
+        $cart_manager->otp=null;
+        $cart_manager->save();
 
         
         $check_order=Order::find($cart_manager->order_id);
